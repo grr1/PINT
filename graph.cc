@@ -43,6 +43,6 @@ int main()
   g.addNode("c")->addNode("*","+","c",mult)->setNode("c",5);
 
   //Evaluate it
-  cout << g.evalNode("*");
+  cout << g.evalNode("*") <<endl;
   return 0;
 }
