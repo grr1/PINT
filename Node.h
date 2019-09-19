@@ -6,11 +6,11 @@ class Node
 public:
   Node* left_parent;
   Node* right_parent;
-  void *operation;
+  double (*operation)(double, double);
   void *derivate;
   double result;
 
-  Node(Node* left, Node* right, void *func)
+  Node(Node* left, Node* right, double (*func)(double, double))
   {
     this->left_parent = left;
     this->right_parent = right;
