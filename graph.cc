@@ -40,7 +40,7 @@ int main()
   g.addNode("a")->addNode("b")->addNode("+","a","b",add)->setNode("a",3)->setNode("b",4);
 
   //Multiply result of node with constant
-  g.addNode("c")->addNode("*","+","c",mult)->setNode("c",5);
+  g.addNode("c")->addNode("*","+","c",mult)->setNode("c",5)->setNode("+",2);
 
   //Evaluate it
   cout << g.evalNode("*") <<endl;
