@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <map>
 #include "Node.h"
@@ -10,7 +11,7 @@ private:
   map<string, Node *> nodes;
 
 public:
-  Graph addNode(string node_id, string left_parent_id = "", string right_parent_id = "", void *func = NULL)
+  Graph addNode(string node_id, string left_parent_id = "", string right_parent_id = "", double (*func)(double, double) = NULL)
   {
     Node *left_parent  = nodes[left_parent_id];
     Node *right_parent = nodes[right_parent_id];
@@ -25,12 +26,11 @@ public:
     return *this;
   }
 
-  Graph evalNode(string node_id)
+  double evalNode(string node_id)
   {
     Node *node = nodes[node_id];
    // Find a way to invoke function
-   //(node->operation)(node->left_parent->result, node->right_parent->result);
-   return *this;
+   return (node->operation)(node->left_parent->result, node->right_parent->result);
   }
 
 };
@@ -39,8 +39,8 @@ int main()
 {
   Graph g;
   g.addNode("a").addNode("b");
-  g.addNode("+","a","b", (void *)add);
-  g.setNode("a",3).setNode("b",3);
-  g.evalNode("+");
+  g.addNode("+","a","b",add);
+  g.setNode("a",3).setNode("b",4);
+  cout << g.evalNode("+");
   return 0;
 }
