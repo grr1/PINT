@@ -37,10 +37,7 @@ public:
 int main()
 {
   Graph g;
-  g.addNode("a")->addNode("b");
-  g.addNode("+","a","b",add);
-  g.setNode("a",3);
-  g.setNode("b",4);
+  g.addNode("a")->addNode("b")->addNode("+","a","b",add)->setNode("a",3)->setNode("b",4);
   cout << g.evalNode("+");
   return 0;
 }
