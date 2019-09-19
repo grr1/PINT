@@ -22,14 +22,13 @@ public:
 
   Graph* setNode(string node_id, double value)
   {
-    this->nodes[node_id]->result = value;
+    this->nodes[node_id]->setResult(value);
     return this;
   }
 
   double evalNode(string node_id)
   {
-    Node *node = this->nodes[node_id];
-    return (node->operation)(node->left_parent->result, node->right_parent->result);
+    return this->nodes[node_id]->getResult();
   }
 
 };
@@ -37,7 +36,13 @@ public:
 int main()
 {
   Graph g;
+  //Add two nodes
   g.addNode("a")->addNode("b")->addNode("+","a","b",add)->setNode("a",3)->setNode("b",4);
-  cout << g.evalNode("+");
+
+  //Multiply result of node with constant
+  g.addNode("c")->addNode("*","+","c",mult)->setNode("c",5);
+
+  //Evaluate it
+  cout << g.evalNode("*");
   return 0;
 }
