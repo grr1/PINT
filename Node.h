@@ -3,19 +3,22 @@ using namespace std;
 
 class Node
 {
-public:
+private:
   string node_id;
   Node* left_parent;
   Node* right_parent;
   double (*operation)(double, double);
   void *derivate;
   double result;
+  bool pin;
 
-  Node(string node_id, Node* left, Node* right, double (*func)(double, double))
-  {
-    this->node_id = node_id;
-    this->left_parent = left;
-    this->right_parent = right;
-    this->operation = func;
-  }
+  double compute();
+
+public:
+  Node(string, Node*, Node*, double (*func)(double, double));
+  void setPin(bool);
+  bool getPin();
+  void setResult(double);
+  double getResult();
+
 };
