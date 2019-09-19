@@ -4,10 +4,16 @@ using namespace std;
 class Node
 {
 public:
-  unsigned int node_id;
-  string node_name;
-  unsigned int left_parent;
-  unsigned int right_parent;
+  Node* left_parent;
+  Node* right_parent;
   void *operation;
+  void *derivate;
+  double result;
 
+  Node(Node* left, Node* right, void *func)
+  {
+    this->left_parent = left;
+    this->right_parent = right;
+    this->operation = func;
+  }
 };
