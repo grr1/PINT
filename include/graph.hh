@@ -1,8 +1,7 @@
-#include <iostream>
 #include <string>
 #include <map>
-#include "Node.h"
-#include "Functions.h"
+#include "node.hh"
+
 using namespace std;
 
 class Graph
@@ -11,7 +10,7 @@ private:
   map<string, Node *> nodes;
 
 public:
-  Graph* addNode(string node_id, string left_parent_id = "", string right_parent_id = "", double (*func)(double, double) = NULL)
+  Graph* addNode(string node_id, string left_parent_id = "", string right_parent_id = "", double (*func)(double, double) = NULL) // TODO is it possible to make the function pointer more generic, i.e. for int* instead of double*
   {
     Node *left_parent  = nodes.count(left_parent_id)>0 ? nodes[left_parent_id]: NULL;
     Node *right_parent = nodes.count(right_parent_id)>0 ? nodes[right_parent_id]: NULL;
@@ -32,17 +31,3 @@ public:
   }
 
 };
-
-int main()
-{
-  Graph g;
-  //Add two nodes
-  g.addNode("a")->addNode("b")->addNode("+","a","b",add)->setNode("a",3)->setNode("b",4);
-
-  //Multiply result of node with constant
-  g.addNode("c")->addNode("*","+","c",mult)->setNode("c",5)->setNode("+",2);
-
-  //Evaluate it
-  cout << g.evalNode("*") <<endl;
-  return 0;
-}
