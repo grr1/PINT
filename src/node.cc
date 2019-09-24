@@ -1,4 +1,4 @@
-#include "pint.hh"
+#include "node.hh"
 
 Node::Node(string node_id, Node* left, Node* right, double (*func)(double, double))
 {

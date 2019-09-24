@@ -2,29 +2,34 @@
 
 TOPDIR=..
 
-CC=gcc
+CC=g++
 MAIN = $(TOPDIR)/build/main
 TARGET=main
 SOURCEDIR=$(TOPDIR)/src
 
 # Sources definition
-SOURCE=$(SOURCEDIR)/main.cpp
+SOURCES=$(wildcard $(SOURCEDIR)/*.cc)
 
 # Includes definition
-INCLUDE=-I$(TOPDIR)/include
+INCLUDE=-I $(TOPDIR)/include
+
+VPATH=$(SOURCEDIR)
+OBJ=$(patsubst $(SOURCEDIR)/%.cc,./obj/%.o,$(SOURCES))
+
 
 # Compiler flags
-CFLAGS = -o $(TARGET) ${INCLUDE}
-SFLAGS = ${INCLUDE}
+CFLAGS = ${INCLUDE} -g -c
 
-all: $(TARGET)
+all: dir $(TARGET)
 
-$(TARGET): main.o
-	gcc -o main -I ../include $(SOURCE)
-	# using -I changes the `include` directory, lets us keep pint.h somewhere else
+dir:
+	mkdir -p obj
 
-main.o: ../src/main.cpp ../include/pint.hh
-	gcc -c -o main.o ../src/main.cpp
+$(TARGET): $(OBJ)
+	$(CC) $^ -o $@
+
+$(OBJ): ./obj/%.o : $(SOURCEDIR)/%.cc
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f main.o main
+	rm -f ./obj/*.o $(TARGET)
