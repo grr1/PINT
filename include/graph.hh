@@ -1,3 +1,5 @@
+//TODO: change nomenclature
+
 #include <string>
 #include <map>
 #include "node.hh"

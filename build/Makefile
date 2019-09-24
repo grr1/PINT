@@ -1,4 +1,4 @@
-#TODO: make functional :)
+#TODO: fix for master header
 
 TOPDIR=..
 
