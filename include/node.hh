@@ -1,3 +1,5 @@
+//TODO: make abstract and merge with function pseudo-class
+
 #include <string>
 
 using namespace std;
