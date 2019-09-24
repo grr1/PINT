@@ -1,4 +1,0 @@
-#!/bin/bash
-
-rm main
-gcc -o main -I ../include ../src/main.cpp -lstdc++
