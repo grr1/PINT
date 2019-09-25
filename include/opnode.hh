@@ -4,12 +4,12 @@
 
 using namespace std;
 
-class Node
+class OpNode
 {
 private:
   string node_id;
-  Node* left_parent;
-  Node* right_parent;
+  OpNode* left_parent;
+  OpNode* right_parent;
   double (*operation)(double, double);
   void *derivate;
   double result;
@@ -18,7 +18,7 @@ private:
   double compute();
 
 public:
-  Node(string, Node*, Node*, double (*func)(double, double));
+  OpNode(string, OpNode*, OpNode*, double (*func)(double, double));
   void setPin(bool);
   bool getPin();
   void setResult(double);

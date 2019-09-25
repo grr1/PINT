@@ -5,7 +5,7 @@ int main()
 {
   printf("Hello, world!\n");
 
-  Graph g;
+  OpGraph g;
   //Add two nodes
   g.addNode("a")->addNode("b")->addNode("+","a","b",dAdd)->setNode("a",3)->setNode("b",4);
 
