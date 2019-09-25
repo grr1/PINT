@@ -1,5 +1,5 @@
 /* includes all PINT header files */
 
-//#include "node.hh"
-#include "graph.hh"
+//#include "opnode.hh"
+#include "opgraph.hh"
 #include "functions.hh"

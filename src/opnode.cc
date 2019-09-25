@@ -1,6 +1,6 @@
-#include "node.hh"
+#include "opnode.hh"
 
-Node::Node(string node_id, Node* left, Node* right, double (*func)(double, double))
+OpNode::OpNode(string node_id, OpNode* left, OpNode* right, double (*func)(double, double))
 {
   this->node_id = node_id;
   this->left_parent = left;
@@ -9,12 +9,12 @@ Node::Node(string node_id, Node* left, Node* right, double (*func)(double, doubl
   this->pin = false;
 }
 
-double Node::compute()
+double OpNode::compute()
 {
   return (this->operation)(this->left_parent->getResult(), this->right_parent->getResult());
 }
 
-double Node::getResult()
+double OpNode::getResult()
 {
   if(this->getPin())
   {
@@ -26,18 +26,18 @@ double Node::getResult()
   }
 }
 
-void Node::setResult(double value)
+void OpNode::setResult(double value)
 {
   this->result = value;
   this->setPin(true);
 }
 
-bool Node::getPin()
+bool OpNode::getPin()
 {
   return this->pin;
 }
 
-void Node::setPin(bool val)
+void OpNode::setPin(bool val)
 {
   this->pin = true;
 }
