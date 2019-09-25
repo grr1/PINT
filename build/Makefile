@@ -11,7 +11,7 @@ SOURCEDIR=$(TOPDIR)/src
 SOURCES=$(wildcard $(SOURCEDIR)/*.cc)
 
 # Includes definition
-INCLUDE=-I $(TOPDIR)/include
+INCLUDE=-I$(TOPDIR)/include
 
 VPATH=$(SOURCEDIR)
 OBJ=$(patsubst $(SOURCEDIR)/%.cc,./obj/%.o,$(SOURCES))
