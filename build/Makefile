@@ -11,7 +11,7 @@ SOURCEDIR=$(TOPDIR)/src
 SOURCES=$(wildcard $(SOURCEDIR)/*.cc)
 
 # Includes definition
-INCLUDE=-I$(TOPDIR)/include
+INCLUDE=-I $(TOPDIR)/include
 
 VPATH=$(SOURCEDIR)
 OBJ=$(patsubst $(SOURCEDIR)/%.cc,./obj/%.o,$(SOURCES))
@@ -20,12 +20,10 @@ OBJ=$(patsubst $(SOURCEDIR)/%.cc,./obj/%.o,$(SOURCES))
 # Compiler flags
 CFLAGS = ${INCLUDE} -g -c
 
-all: dir $(TARGET)
-
-dir:
-	mkdir -p obj
+all: $(TARGET)
 
 $(TARGET): $(OBJ)
+	mkdir -p obj
 	$(CC) $^ -o $@
 
 $(OBJ): ./obj/%.o : $(SOURCEDIR)/%.cc

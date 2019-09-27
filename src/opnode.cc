@@ -1,6 +1,8 @@
 #include "opnode.hh"
-OpNode::OpNode(OpNode* left, OpNode* right, double (*func)(double, double))
+
+OpNode::OpNode(string node_id, OpNode* left, OpNode* right, double (*func)(double, double))
 {
+  this->node_id = node_id;
   this->left_parent = left;
   this->right_parent = right;
   this->operation = func;
@@ -11,12 +13,6 @@ double OpNode::compute()
 {
   return (this->operation)(this->left_parent->getResult(), this->right_parent->getResult());
 }
-
-/*
-void OpNode::addParent(string parent_node_id)
-{
-  this->parents.push_back(this->nodes[]);
-}*/
 
 double OpNode::getResult()
 {
