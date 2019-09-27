@@ -6,6 +6,7 @@ CC=g++
 MAIN = $(TOPDIR)/build/main
 TARGET=main
 SOURCEDIR=$(TOPDIR)/src
+OBJDIR=./obj
 
 # Sources definition
 SOURCES=$(wildcard $(SOURCEDIR)/*.cc)
@@ -14,16 +15,20 @@ SOURCES=$(wildcard $(SOURCEDIR)/*.cc)
 INCLUDE=-I $(TOPDIR)/include
 
 VPATH=$(SOURCEDIR)
-OBJ=$(patsubst $(SOURCEDIR)/%.cc,./obj/%.o,$(SOURCES))
+OBJ=$(patsubst $(SOURCEDIR)/%.cc,$(OBJDIR)/%.o,$(SOURCES))
 
 
 # Compiler flags
 CFLAGS = ${INCLUDE} -g -c
 
-all: $(TARGET)
+all: dirs $(TARGET)
+
+dirs: $(OBJDIR)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 $(TARGET): $(OBJ)
-	mkdir -p obj
 	$(CC) $^ -o $@
 
 $(OBJ): ./obj/%.o : $(SOURCEDIR)/%.cc
