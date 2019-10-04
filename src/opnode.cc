@@ -1,4 +1,6 @@
-#include "opnode.hh"
+#include "opnode.h"
+
+using namespace pint;
 
 OpNode::OpNode(string node_id, OpNode* left, OpNode* right, double (*func)(double, double))
 {

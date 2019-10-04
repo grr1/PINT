@@ -4,6 +4,9 @@
 
 using namespace std;
 
+namespace pint
+{
+
 class OpNode
 {
 private:
@@ -25,3 +28,5 @@ public:
   double getResult();
 
 };
+
+}
