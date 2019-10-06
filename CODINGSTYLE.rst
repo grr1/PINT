@@ -57,7 +57,7 @@ Comments should have a space before actual text.
 
     inline char myep(int bar, char * zork) { return zork[bar]; }
 
-    void foo(int qux)
+    void foo(int qux) // TODO: implement PINT
     {
         if (bar)
         {
@@ -73,6 +73,4 @@ Comments should have a space before actual text.
             // something do
         }
         while (!bar);
-
-        
     }
