@@ -1,8 +1,12 @@
-//TODO: make abstract and merge with function pseudo-class
+//TODO: make virtual and do away with function.h
+//TODO: make PTensor wrapper for 2D/3Darray or tensor allocation, use xtensor if needed
 
 #include <string>
 
 using namespace std;
+
+namespace pint
+{
 
 class OpNode
 {
@@ -25,3 +29,5 @@ public:
   double getResult();
 
 };
+
+}
