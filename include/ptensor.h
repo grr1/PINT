@@ -1,4 +1,4 @@
-// TODO: Should we add dimension verification? Don't want 0 dimension, etc.
+//TODO: Should we add dimension verification? Don't want 0 dimension, etc.
 
 namespace pint
 {
