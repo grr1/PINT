@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# returns every filename with an unaddressed "TODO" tag (not case sensitive);
+# does not include this script or .git directory
+grep -ir --color=auto --exclude='todo' --exclude-dir='.git' "TODO"
+
+# to be fancy, when grep returns no files
+if [ "$?" -eq 1 ] ; then
+	echo "No files need attention."
+fi
