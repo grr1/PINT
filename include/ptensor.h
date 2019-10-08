@@ -1,4 +1,4 @@
-//TODO: Should we add dimension verification? Don't want 0 dimension, etc.
+// TODO: should we add dimension verification? Don't want to allow overflow
 
 namespace pint
 {
@@ -10,30 +10,37 @@ public:
     int _shape[3];
         // shape[0] = nrows = column_size
         // shape[1] = ncols = row_size
+        // shape[2] = nplanes = z_size
 
     inline double get2DElement(int i, int j) { return _data[i*_shape[0] + j]; }
     inline void set2DElement(int i, int j, double x) { _data[i*_shape[0] + j] = x; }
 
     inline double get3DElement(int i, int j, int k) { return _data[i*_shape[0]*_shape[1] + j*_shape[1] + k]; }
-    inline double set3DElement(int i, int j, int k, double x) { _data[i*_shape[0]*_shape[1] + j*_shape[1] + k] = x; }
+    inline void set3DElement(int i, int j, int k, double x) { _data[i*_shape[0]*_shape[1] + j*_shape[1] + k] = x; }
+
+    // TODO: discuss constant get/set with reverse priority dimensions?
+    inline double getElement(int i, int j, int k) { return _data[k*_shape[2]*_shape[1] + j*_shape[1] + i]; }
+    inline void setElement(int i, int j, int k, double x) { _data[k*_shape[2]*_shape[1] + j*_shape[1] + i] = x; }
 
     PTensor(int ndim, int shape[])
     {
         int length = 1;
 
-        _ndim = ndim;
+        _ndim = min(ndim, 3);
 
-        for (int i = 0; i < _ndim; i++)
+        for (int i = 0; i < _ndim ; i++)
         {
             _shape[i] = shape[i];
             length *= shape[i];
         }
 
-        _data = (double *)(length * sizeof(double));
+        _data = (double *)malloc(length * sizeof(double));
     }
 
 private: // at end because data is a flexible array member
-    double * _data; // matrix[i][j] = data[i*shape[0]+j]
+    double * _data;
+        // matrix[i][j] = data[i*shape[0]+j]
+        // matrix[i][j][k] = data[i*shape[0]*shape[1] + j*shape[1] + k]
 };
 
 }

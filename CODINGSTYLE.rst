@@ -46,7 +46,7 @@ between braces for these.
 
 Classes, functions, loops, if statements, etc. that take multiple statements to 
 define must have opening and closing braces on separate lines.
-This makes commenting out conditoinals easier and encourages reducing the number 
+This makes commenting out conditionals easier and encourages reducing the number 
 of special cases in code.
 
 Conditionals like if statements should have a space before the opening paranthesis.
