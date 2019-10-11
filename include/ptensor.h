@@ -1,5 +1,5 @@
 // TODO: should we add dimension verification? Don't want to allow overflow
-// TODO: operator overloads for =,+,-,*
+// TODO: discuss public/private vars
 
 using namespace std;
 
@@ -10,16 +10,16 @@ class PTensor
 {
 public:
     int _ndim;
-    int _shape[3] = {1, 1, 1};
     int _size;
+    int _shape[3];
         // shape[0] = nrows = column_size
         // shape[1] = ncols = row_size
         // shape[2] = nplanes = z_size
 
-    // TODO: discuss constant get/set with reverse priority dimensions?
     inline double getElement(int i, int j, int k) { return _data[k*_shape[2]*_shape[1] + j*_shape[1] + i]; }
     inline void setElement(int i, int j, int k, double x) { _data[k*_shape[2]*_shape[1] + j*_shape[1] + i] = x; }
 
+    PTensor();
     PTensor(int ndim, int * shape);
     PTensor(const PTensor&); // copy constructor
     ~PTensor();

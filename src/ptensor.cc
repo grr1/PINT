@@ -5,6 +5,14 @@
 
 using namespace pint;
 
+PTensor::PTensor()
+{
+    _ndim = 1;
+    _shape[0] = _shape[1] = _shape[2] = 1;
+    _size = sizeof(double);
+    _data = (double *)malloc(_size);
+}
+
 PTensor::PTensor(int ndim, int * shape)
 {
     _ndim = min(ndim, 3);
@@ -26,6 +34,11 @@ PTensor::PTensor(const PTensor& t)
     this->_ndim = t._ndim;
     this->_size = t._size;
 
+    for (int i = 0; i < _ndim; i++)
+    {
+        this->_shape[i] = t._shape[i];
+    }
+
     this->_data = (double *)malloc(this->_size);
     std::memcpy(this->_data, t._data, this->_size);
 }
@@ -42,13 +55,23 @@ PTensor & PTensor::operator=(const PTensor &rhs)
 {
     if (this == &rhs) { return *this; }
 
-    if (this->_size != rhs._size)
+    /*if (this->_size != rhs._size)
     {
         printf("Unequal PTensor sizes\n");
         exit(1);
+    }*/
+
+    this->_ndim = rhs._ndim;
+    this->_size = rhs._size;
+
+    for (int i = 0; i < _ndim; i++)
+    {
+        this->_shape[i] = rhs._shape[i];
     }
 
-    std::memcpy(this->_data, &rhs._data, this->_size);
+    free(this->_data);
+    _data = (double *)malloc(this->_size);
+    memcpy(this->_data, rhs._data, this->_size);
     return *this;
 }
 

@@ -1,6 +1,5 @@
 //TODO: make virtual and do away with function.h
 
-#include <string>
 #include "ptensor.h"
 
 using namespace std;
@@ -13,10 +12,10 @@ class OpNode
 private:
   OpNode* left_parent;
   OpNode* right_parent;
-  PTensor * result; // TODO: store as pointer for easier passing?
-  bool set;
+  PTensor _result; // TODO: store as pointer for easier passing?
+  bool _set = false;
 
-  virtual PTensor compute() {};
+  virtual PTensor compute(PTensor, PTensor) {};
   virtual PTensor derivative() {};
 
 public:
@@ -26,6 +25,7 @@ public:
   PTensor eval();
 
   void setResult(PTensor);
+  PTensor getResult();
   PTensor unsetResult();
 
 };
