@@ -4,12 +4,34 @@ using namespace pint;
 
 OpNode::OpNode(OpNode* left, OpNode* right)
 {
-  this->left_parent = left;
-  this->right_parent = right;
-  this->result = NULL;
+  left_parent = left;
+  right_parent = right;
+}
+
+OpNode::~OpNode()
+{
 }
 
 PTensor OpNode::eval()
 {
-    return *result;
+    if (_set) { return _result; }
+
+    return _result = compute(left_parent->eval(), right_parent->eval());
+}
+
+void OpNode::setResult(PTensor result)
+{
+    _set = true;
+    _result = result;
+}
+
+PTensor OpNode::getResult()
+{
+    return _result;
+}
+
+PTensor OpNode::unsetResult()
+{
+    _set = false;
+    return _result;
 }
