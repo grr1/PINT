@@ -1,6 +1,11 @@
 /* includes all PINT header files */
 
-//#include "opnode.h"
-//#include "ptensor.h"
-//#include "utilnodes.h"
+#ifndef PINT_H
+#define PINT_H
+
+#include "ptensor.h"
+#include "opnode.h"
 #include "opgraph.h"
+#include "utils.h"
+
+#endif

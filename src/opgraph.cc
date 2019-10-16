@@ -1,21 +1,23 @@
+#include "pint.h"
+
 #include <string>
 #include <map>
-#include "opgraph.h"
 
 using namespace pint;
 
-OpGraph* OpGraph::addNode(string node_id, string left_parent_id, string right_parent_id, double (*func)(double, double))
+OpGraph* OpGraph::addNode(string node_id, OpNode * node, string left_parent_id, string right_parent_id)
 {
-    //OpNode *left_parent  = nodes.count(left_parent_id)>0 ? nodes[left_parent_id]: NULL;
-    //OpNode *right_parent = nodes.count(right_parent_id)>0 ? nodes[right_parent_id]: NULL;
-    //OpNode *node = new OpNode(left_parent, right_parent);
-    //this->nodes.insert(pair<string, OpNode *>(node_id, node));
+    OpNode *left  = nodes.count(left_parent_id)>0 ? nodes[left_parent_id]: NULL;
+    OpNode *right = nodes.count(right_parent_id)>0 ? nodes[right_parent_id]: NULL;
+    node->left_parent = left;
+    node->right_parent = right;
+    this->nodes.insert(pair<string, OpNode *>(node_id, node));
     return this;
 }
 
 OpGraph* OpGraph::setNode(string node_id, PTensor value)
 {
-    //this->nodes[node_id]->setResult(value);
+    this->nodes[node_id]->setResult(value);
     return this;
 }
 

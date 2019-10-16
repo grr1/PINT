@@ -1,7 +1,12 @@
-#include "opnode.h"
+#ifndef UTILS_H
+#define UTILS_H
+
+#include "pint.h"
 
 namespace pint
 {
+
+int init();
 
 class PlusNode: public OpNode
 {
@@ -21,4 +26,8 @@ private:
     } 
 };
 
+void printPTensor(PTensor t);
+
 }
+
+#endif
