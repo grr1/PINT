@@ -19,7 +19,7 @@ OBJ=$(patsubst $(SOURCEDIR)/%.cc,$(OBJDIR)/%.o,$(SOURCES))
 
 
 # Compiler flags
-CFLAGS = ${INCLUDE} -g -c
+CFLAGS = ${INCLUDE} -g -Wall -Wextra -pedantic -c
 
 all: dirs $(TARGET)
 
