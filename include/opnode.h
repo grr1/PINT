@@ -1,4 +1,5 @@
-//TODO: make virtual and do away with function.h
+#ifndef OPNODE_H
+#define OPNODE_H
 
 #include "ptensor.h"
 
@@ -10,24 +11,28 @@ namespace pint
 class OpNode
 {
 private:
-  OpNode* left_parent;
-  OpNode* right_parent;
-  PTensor _result; // TODO: store as pointer for easier passing?
-  bool _set = false;
+    PTensor _weights;
+    PTensor _result; // TODO: store as pointer for easier passing?
+    bool _set = false;
 
-  virtual PTensor compute(PTensor, PTensor) {};
-  virtual PTensor derivative() {};
+    virtual PTensor compute(PTensor, PTensor)=0; // takes input val
+    virtual PTensor derivative(PTensor)=0; // takes result to act on derivate
 
 public:
-  OpNode(OpNode*, OpNode*);
-  ~OpNode();
+    OpNode* left_parent;
+    OpNode* right_parent;
 
-  PTensor eval();
+    OpNode(OpNode*, OpNode*);
+    ~OpNode();
 
-  void setResult(PTensor);
-  PTensor getResult();
-  PTensor unsetResult();
+    PTensor eval();
+
+    void setResult(PTensor);
+    PTensor getResult();
+    PTensor unsetResult();
 
 };
 
 }
+
+#endif

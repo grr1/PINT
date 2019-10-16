@@ -1,5 +1,3 @@
-#TODO: implement master header functionality (?)
-
 TOPDIR=..
 
 CC=g++

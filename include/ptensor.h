@@ -1,5 +1,7 @@
 // TODO: should we add dimension verification? Don't want to allow overflow
 // TODO: discuss public/private vars
+#ifndef PTENSOR_H
+#define PTENSOR_H
 
 using namespace std;
 
@@ -20,7 +22,8 @@ public:
     inline void setElement(int i, int j, int k, double x) { _data[k*_shape[2]*_shape[1] + j*_shape[1] + i] = x; }
 
     PTensor();
-    PTensor(int ndim, int * shape);
+    //PTensor(int ndim, int * shape);
+    PTensor(int ndim, int * shape, double max=0);
     PTensor(const PTensor&); // copy constructor
     ~PTensor();
 
@@ -48,3 +51,5 @@ public:
 };
 
 }
+
+#endif

@@ -1,11 +1,11 @@
-#include "opnode.h"
+#include "pint.h"
 
 using namespace pint;
 
 OpNode::OpNode(OpNode* left, OpNode* right)
 {
-  left_parent = left;
-  right_parent = right;
+    left_parent = left;
+    right_parent = right;
 }
 
 OpNode::~OpNode()

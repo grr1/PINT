@@ -1,4 +1,5 @@
-#include "ptensor.h"
+#include "pint.h"
+
 #include <algorithm>
 #include <stdio.h>
 #include <cstring>
@@ -13,7 +14,7 @@ PTensor::PTensor()
     _data = (double *)malloc(_size);
 }
 
-PTensor::PTensor(int ndim, int * shape)
+/*PTensor::PTensor(int ndim, int * shape)
 {
     _ndim = min(ndim, 3);
 
@@ -25,12 +26,31 @@ PTensor::PTensor(int ndim, int * shape)
     }
 
     _data = (double *)malloc(_size);
+}*/
+
+PTensor::PTensor(int ndim, int * shape, double max)
+{
+    _ndim = min(ndim, 3);
+
+    _size = sizeof(double);
+    for (int i = 0; i < _ndim; i++)
+    {
+        _shape[i] = shape[i];
+        _size *= shape[i];
+    }
+
+    _data = (double *)malloc(_size);
+
+    if (max == 0) { return; }
+
+    for (int i = 0; i < _size; i++)
+    {
+        _data[i] = rand()*max;
+    }
 }
 
 PTensor::PTensor(const PTensor& t)
 {
-    int size = sizeof(double);
-
     this->_ndim = t._ndim;
     this->_size = t._size;
 
