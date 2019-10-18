@@ -1,5 +1,6 @@
 // TODO: should we add dimension verification? Don't want to allow overflow
 // TODO: discuss public/private vars
+// TODO: do we need PTensor at all? Should we make matrix multiplication or transpose?
 #ifndef PTENSOR_H
 #define PTENSOR_H
 

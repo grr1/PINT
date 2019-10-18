@@ -1,4 +1,4 @@
 # ignore build dir
-build/**
+build
 # except for Makefile
 !build/Makefile
