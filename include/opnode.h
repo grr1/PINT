@@ -1,7 +1,9 @@
+//TODO: how are these supposed to be used? One per layer or multiple?
+
 #ifndef OPNODE_H
 #define OPNODE_H
 
-#include "ptensor.h"
+#include "pint.h"
 
 using namespace std;
 

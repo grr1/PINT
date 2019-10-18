@@ -1,9 +1,10 @@
 #ifndef OPGRAPH_H
 #define OPGRAPH_H
 
+#include "pint.h"
+
 #include <string>
 #include <map>
-#include "opnode.h"
 
 using namespace std;
 
