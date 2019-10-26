@@ -1,6 +1,7 @@
 // TODO: should we add dimension verification? Don't want to allow overflow
 // TODO: discuss public/private vars
-// TODO: do we need PTensor at all? Should we make matrix multiplication or transpose?
+// TODO: actually implement dot prod/matrix mult
+// TODO: add rand inits
 #ifndef PTENSOR_H
 #define PTENSOR_H
 
@@ -19,12 +20,13 @@ public:
         // shape[1] = ncols = row_size
         // shape[2] = nplanes = z_size
 
-    inline double getElement(int i, int j, int k) { return _data[k*_shape[2]*_shape[1] + j*_shape[1] + i]; }
-    inline void setElement(int i, int j, int k, double x) { _data[k*_shape[2]*_shape[1] + j*_shape[1] + i] = x; }
+    inline double & at(int i, int j, int k=0) { return _data[k*_shape[2]*_shape[1] + j*_shape[1] + i]; }
+    inline double getElement(int i, int j, int k=0) { return _data[k*_shape[2]*_shape[1] + j*_shape[1] + i]; }
+    inline void setElement(double x, int i, int j, int k=0) { _data[k*_shape[2]*_shape[1] + j*_shape[1] + i] = x; }
 
     PTensor();
     //PTensor(int ndim, int * shape);
-    PTensor(int ndim, int * shape, double max=0);
+    PTensor(int ndim, const int * shape, double init=0);
     PTensor(const PTensor&); // copy constructor
     ~PTensor();
 
@@ -35,11 +37,23 @@ public:
     PTensor & operator*=(const PTensor&);
     PTensor & operator/=(const PTensor&);
 
+    PTensor & operator=(const double &rhs) { return *this += PTensor(this->_ndim, this->_shape, rhs); }
+    PTensor & operator+=(const double &rhs) { return *this += PTensor(this->_ndim, this->_shape, rhs); }
+    PTensor & operator-=(const double &rhs) { return *this += PTensor(this->_ndim, this->_shape, rhs); }
+    PTensor & operator*=(const double &rhs) { return *this += PTensor(this->_ndim, this->_shape, rhs); }
+    PTensor & operator/=(const double &rhs) { return *this += PTensor(this->_ndim, this->_shape, rhs); }
+
     // Binary arithmetic ops
     const PTensor operator+(const PTensor &other) const { return PTensor(*this) += other; }
     const PTensor operator-(const PTensor &other) const { return PTensor(*this) -= other; }
     const PTensor operator*(const PTensor &other) const { return PTensor(*this) *= other; }
     const PTensor operator/(const PTensor &other) const { return PTensor(*this) /= other; }
+
+    const PTensor operator+(const double &other) const { return PTensor(*this) += other; }
+    const PTensor operator-(const double &other) const { return PTensor(*this) -= other; }
+    const PTensor operator*(const double &other) const { return PTensor(*this) *= other; }
+    const PTensor operator/(const double &other) const { return PTensor(*this) /= other; }
+
 
     // Comparison ops
     bool operator==(const PTensor &) const;
@@ -50,6 +64,8 @@ public:
         // matrix[i][j] = data[i*shape[0]+j]
         // matrix[i][j][k] = data[i*shape[0]*shape[1] + j*shape[1] + k]
 };
+
+const PTensor dot(const PTensor&, const PTensor&);
 
 }
 

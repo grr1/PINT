@@ -1,5 +1,4 @@
-//TODO: how are these supposed to be used? One per layer or multiple?
-
+// TODO: implement opnode to contain compute/derivative and parent opnodes
 #ifndef OPNODE_H
 #define OPNODE_H
 
@@ -13,12 +12,11 @@ namespace pint
 class OpNode
 {
 private:
-    PTensor _weights;
-    PTensor _result; // TODO: store as pointer for easier passing?
+    PTensor _result;
     bool _set = false;
 
     virtual PTensor compute(PTensor, PTensor)=0; // takes input val
-    virtual PTensor derivative(PTensor)=0; // takes result to act on derivate
+    virtual PTensor derivative(PTensor, PTensor)=0; // takes result to act on derivate
 
 public:
     OpNode* left_parent;
