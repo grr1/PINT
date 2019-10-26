@@ -28,7 +28,7 @@ PTensor::PTensor()
     _data = (double *)malloc(_size);
 }*/
 
-PTensor::PTensor(int ndim, int * shape, double max)
+PTensor::PTensor(int ndim, const int * shape, double init)
 {
     _ndim = min(ndim, 3);
 
@@ -41,11 +41,9 @@ PTensor::PTensor(int ndim, int * shape, double max)
 
     _data = (double *)malloc(_size);
 
-    if (max == 0) { return; }
-
     for (int i = 0; i < _size; i++)
     {
-        _data[i] = rand()*max;
+        _data[i] = init;
     }
 }
 
@@ -165,4 +163,12 @@ bool PTensor::operator==(const PTensor &rhs) const
     }
 
     return false;
+}
+
+// Dot prod
+
+const PTensor dot(const PTensor &a, const PTensor &b)
+{
+    
+    return a;
 }
