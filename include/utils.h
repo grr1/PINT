@@ -8,8 +8,9 @@ namespace pint
 
 int init();
 
-void printPTensorData(PTensor& t);
-void printPTensor(PTensor& t);
+void printPTensorData(const PTensor &t);
+void printPTensor(const PTensor &t);
+void printWeights(const vector<PTensor*> &weights);
 
 class ReflexivityNode: public OpNode
 {
@@ -18,9 +19,9 @@ private:
     PTensor* tensor;
 
     // TODO: better way to handle variable number of parents for compute without going overboard?
-    PTensor compute(vector<PTensor> inp)
+    PTensor compute(vector<PTensor*> inp)
     {
-
+        printf("reflex comp\n");
         return *tensor;
     }
 
@@ -33,10 +34,11 @@ class DotProductNode: public OpNode
 {
 using OpNode::OpNode;
 private:
-    PTensor compute(vector<PTensor> inp)
+    PTensor compute(vector<PTensor*> inp)
     {
-        PTensor w = inp[0];
-        PTensor x = inp[1];
+        printf("dot comp\n");
+        PTensor w = *(inp[0]);
+        PTensor x = *(inp[1]);
 
         return mult(w, x);
     }
@@ -46,9 +48,10 @@ class SigmoidNode: public OpNode
 {
 using OpNode::OpNode;
 private:
-    PTensor compute(vector<PTensor> inp)
+    PTensor compute(vector<PTensor*> inp)
     {
-        PTensor x = inp[0];
+        printf("sig comp\n");
+        PTensor x = *(inp[0]);
 
         return 1 / (1 + pint::exp(-x));
     }

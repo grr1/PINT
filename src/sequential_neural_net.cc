@@ -10,7 +10,6 @@ namespace pint
     this->numLayers = 0;
     this->in = new ReflexivityNode();
     this->out = this->in;
-    this->weights = new std::vector<PTensor*>();
   }
 
   SequentialNet::~SequentialNet()
@@ -20,15 +19,27 @@ namespace pint
 
   void SequentialNet::addLayer(int inSize, int outSize)
   {
-    //TODO: Add a new randomized weight ptensor of shape inSize x outSize.
-    std::vector<OpNode*> parentList;
-    parentList.push_back(this->out);
+    // Make new weight matrix
+    int wshape[2];
+    wshape[0] = outSize;
+    wshape[1] = inSize;
+    PTensor * w = new PTensor(randpt(2, wshape));
+    weights.push_back(w);
+
+    // Make new weight reflex node
     ReflexivityNode * weightNode = new ReflexivityNode();
-    parentList.push_back(weightNode);   //TODO: Tie this to the layer's weight ptensor.
+    weightNode->setTensor(w);
+
+    // Set parents for dot product
+    std::vector<OpNode*> parentList;
+    parentList.push_back(weightNode); // we push weights first for W*x = b
+    parentList.push_back(this->out); // where out is x
     DotProductNode * dotNode = new DotProductNode(parentList);   //NOTE: This is assuming that the first arg of the new version is a parent vector.
+
     parentList.clear();
+
     parentList.push_back(dotNode);
-    SigmoidNode * sigNode = new SigmoidNode(parentList);   //TODO: Add the sigmoid node.
+    SigmoidNode * sigNode = new SigmoidNode(parentList);
     this->out = sigNode;
     this->numLayers++;
   }

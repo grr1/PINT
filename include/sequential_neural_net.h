@@ -13,11 +13,11 @@ namespace pint
       OpNode * in;
       OpNode * out;
       int numLayers;
-      std::vector<PTensor*> * weights;
 
     public:
       SequentialNet();
       ~SequentialNet();
+      std::vector<PTensor*> weights; // TODO: this should be private, but it can't right now
       void addLayer(int inSize, int outSize);
       PTensor run(PTensor * input);
   };
