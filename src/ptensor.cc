@@ -149,6 +149,13 @@ PTensor & PTensor::operator=(const double &rhs)
     return *this;
 }
 
+// double div
+const PTensor operator/(const double &lhs, const PTensor &rhs)
+{
+    PTensor p(rhs);
+
+    for (int i = 0; i < p._size; i++) { p._data[i] = lhs/p._data[i]; }
+}
 
 // Comparison op
 bool PTensor::operator==(const PTensor &rhs) const
@@ -169,7 +176,7 @@ bool PTensor::operator==(const PTensor &rhs) const
 }
 
 // Exp
-const PTensor exp(const PTensor a)
+const PTensor ptexp(const PTensor a)
 {
     PTensor b(a);
     for (int i = 0; i < a._size; i++) { b._data[i] = exp(a._data[i]); }

@@ -1,5 +1,6 @@
 // TODO: should we add dimension verification? Don't want to allow overflow
 // TODO: discuss public/private vars
+// TODO: which ops should be inline?
 #ifndef PTENSOR_H
 #define PTENSOR_H
 
@@ -48,15 +49,14 @@ public:
     const PTensor operator*(const PTensor &other) const { return PTensor(*this) *= other; }
     const PTensor operator/(const PTensor &other) const { return PTensor(*this) /= other; }
 
-    // Unary arithmetic ops
-    const PTensor operator+() const { return *this; }
-    const PTensor operator-() const { return PTensor(*this) *= -1; }
-
     const PTensor operator+(const double &other) const { return PTensor(*this) += other; }
     const PTensor operator-(const double &other) const { return PTensor(*this) -= other; }
     const PTensor operator*(const double &other) const { return PTensor(*this) *= other; }
     const PTensor operator/(const double &other) const { return PTensor(*this) /= other; }
 
+    // Unary arithmetic ops
+    const PTensor operator+() const { return PTensor(*this); }
+    const PTensor operator-() const { return PTensor(*this) *= -1; }
 
     // Comparison ops
     bool operator==(const PTensor &) const;
@@ -70,7 +70,15 @@ public:
         // matrix[i][j][k] = data[i*shape[0]*shape[1] + j*shape[1] + k]
 };
 
-const PTensor exp(const PTensor);
+// Non-assignment non-member overloads
+inline const PTensor operator+(const double &lhs, const PTensor &rhs) { return rhs + lhs; }
+inline const PTensor operator-(const double &lhs, const PTensor &rhs) { return -rhs + lhs; }
+inline const PTensor operator*(const double &lhs, const PTensor &rhs) { return rhs * lhs; }
+const PTensor operator/(const double &lhs, const PTensor &rhs);
+ 
+
+// Auxiliary ops
+const PTensor ptexp(const PTensor);
 const PTensor dot(const PTensor, const PTensor);
 const PTensor ptrand(int ndim, const int* shape);
 
