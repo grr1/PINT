@@ -1,7 +1,7 @@
 #include "pint.h"
 
 #include <algorithm>
-#include <stdio.h>
+#include <cstdio>
 #include <cstring>
 
 using namespace pint;
@@ -176,7 +176,7 @@ bool PTensor::operator==(const PTensor &rhs) const
 }
 
 // Exp
-const PTensor ptexp(const PTensor a)
+const PTensor exp(const PTensor a)
 {
     PTensor b(a);
     for (int i = 0; i < a._size; i++) { b._data[i] = exp(a._data[i]); }
@@ -184,7 +184,7 @@ const PTensor ptexp(const PTensor a)
     return b;
 }
 // Dot prod
-const PTensor dot(const PTensor a, const PTensor x)
+const PTensor mult(const PTensor a, const PTensor x)
 {
     if (a.shape[1] != x.shape[0])
     {
@@ -225,7 +225,7 @@ const PTensor dot(const PTensor a, const PTensor x)
 }
 
 // Rand init
-const PTensor ptrand(int ndim, const int* shape)
+const PTensor randpt(int ndim, const int* shape)
 {
     PTensor p(ndim, shape);
 

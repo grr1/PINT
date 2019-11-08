@@ -9,36 +9,42 @@ namespace pint
 int init();
 
 class ReflexivityNode: public OpNode
-{
-    private:
-        PTensor* tensor;
+{   
+private:
+    PTensor* tensor;
 
-    public:
-        void setTensor(PTensor* inputTensor)
-        {
-            this->tensor = inputTensor;
-        }
-        PTensor compute()
-        {
-            return *(this->tensor);
-        }
+    // TODO: better way to handle variable number of parents for compute without going overboard?
+    PTensor compute(vector<PTensor> inp)
+    {
+
+        return *tensor;
+    }
+
+public:
+    void setTensor (PTensor* inputTensor) { this->tensor = inputTensor; }
+
 };
 
 class DotProductNode: public OpNode
 {
-    private:
-        PTensor compute(PTensor *left, PTensor* right)
-        {
-            return dot(*left, *right);
-        }
+private:
+    PTensor compute(vector<PTensor> inp)
+    {
+        PTensor w = inp[0];
+        PTensor x = inp[1];
+
+        return mult(w, x);
+    }
 };
 
-class ActivationNode: public OpNode
+class SigmoidNode: public OpNode
 {
-public:
-    PTensor compute(PTensor x)
+private:
+    PTensor compute(vector<PTensor> inp)
     {
-       return 1 / (1 + ptexp(-x));
+        PTensor x = inp[0];
+
+        return 1 / (1 + pint::exp(-x));
     }
 };
 

@@ -1,4 +1,3 @@
-// TODO: implement opnode to contain compute/derivative and parent opnodes
 #ifndef OPNODE_H
 #define OPNODE_H
 
@@ -12,25 +11,26 @@ namespace pint
 class OpNode
 {
 private:
-    vector<OpNode*> *parents;
+    vector<OpNode *> _parents;
     PTensor _result;
-    bool _set = false;
+    //bool _set = false;
 
-    virtual PTensor compute(PTensor, PTensor)=0; // takes input val
-    virtual PTensor derivative(PTensor, PTensor)=0; // takes result to act on derivate
+    virtual PTensor compute(vector<PTensor> args) = 0; // takes input tensors
+    //virtual PTensor derivative(PTensor, PTensor)=0; // takes result to act on derivate
 
 public:
-    OpNode* left_parent;
-    OpNode* right_parent;
 
-    OpNode(OpNode*, OpNode*);
+    OpNode();
+    OpNode(vector<OpNode *> parents);
     ~OpNode();
 
     PTensor eval();
 
-    void setResult(PTensor);
-    PTensor getResult();
-    PTensor unsetResult();
+    // TODO: addParent methods
+
+    //void setResult(PTensor);
+    //PTensor getResult();
+    //PTensor unsetResult();
 
 };
 
