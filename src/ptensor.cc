@@ -222,7 +222,7 @@ const PTensor pint::mult(const PTensor& a, const PTensor& x)
         {
             for (int k = 0; k < b._shape[2]; k++)
             {
-                int dot = 0;
+                double dot = 0;
                 for (int h = 0; h < a._shape[1]; h++)
                 {
                     dot += a.at(i,h,k)*b.at(h,j,k);
