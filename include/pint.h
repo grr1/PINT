@@ -3,6 +3,9 @@
 #ifndef PINT_H
 #define PINT_H
 
+#include <vector>
+#include <cmath>
+
 #include "ptensor.h"
 #include "opnode.h"
 #include "opgraph.h"

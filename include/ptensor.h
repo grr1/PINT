@@ -1,6 +1,4 @@
-// TODO: should we add dimension verification? Don't want to allow overflow
 // TODO: discuss public/private vars
-// TODO: which ops should be inline?
 #ifndef PTENSOR_H
 #define PTENSOR_H
 
@@ -19,6 +17,8 @@ public:
         // shape[1] = ncols = row_size
         // shape[2] = nplanes = z_size (ncolors)
 
+
+    // TODO: should we add dimension verification? Don't want to allow overflow
     // at(1, 2, 3) means term #1, vector #2, color #3
     inline double & at(int i=0, int j=0, int k=0) { return _data[k*_shape[1]*_shape[0] + j*_shape[0] + i]; }
     inline double getElement(int i=0, int j=0, int k=0) { return _data[k*_shape[1]*_shape[0] + j*_shape[0] + i]; }
@@ -30,6 +30,8 @@ public:
     PTensor(const PTensor&); // copy constructor
     ~PTensor();
 
+
+    // TODO: which op overloads should be inline?
     // Assignment/compound assignment ops
     PTensor & operator=(const PTensor&);
     PTensor & operator+=(const PTensor&);
@@ -78,9 +80,9 @@ const PTensor operator/(const double &lhs, const PTensor &rhs);
  
 
 // Auxiliary ops
-const PTensor ptexp(const PTensor);
-const PTensor dot(const PTensor, const PTensor);
-const PTensor ptrand(int ndim, const int* shape);
+const PTensor exp(const PTensor);
+const PTensor mult(const PTensor, const PTensor);
+const PTensor randpt(int ndim, const int* shape);
 
 }
 
