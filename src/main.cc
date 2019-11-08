@@ -14,8 +14,8 @@ int main()
     input->at(1) = 4; // y
 
     printf("input:\n");
-    printPTensorData(*input);
-    printf("\n");
+    //printPTensorData(*input);
+    //printf("\n");
     printPTensor(*input);
 
     printf("Making net\n");
@@ -35,8 +35,8 @@ int main()
     PTensor output = net->run(input);
 
     printf("\n\noutput:\n");
-    printPTensorData(output);
-    printf("\n");
+    //printPTensorData(output);
+    //printf("\n");
     printPTensor(output);
 
     return 0;
