@@ -1,7 +1,8 @@
-//TODO: make virtual and do away with function.h
-//TODO: make PTensor wrapper for 2D/3Darray or tensor allocation, use xtensor if needed
+// TODO: implement opnode to contain compute/derivative and parent opnodes
+#ifndef OPNODE_H
+#define OPNODE_H
 
-#include <string>
+#include "pint.h"
 
 using namespace std;
 
@@ -11,23 +12,27 @@ namespace pint
 class OpNode
 {
 private:
-  string node_id;
-  OpNode* left_parent;
-  OpNode* right_parent;
-  double (*operation)(double, double);
-  void *derivate;
-  double result;
-  bool pin;
+    PTensor _result;
+    bool _set = false;
 
-  double compute();
+    virtual PTensor compute(PTensor, PTensor)=0; // takes input val
+    virtual PTensor derivative(PTensor, PTensor)=0; // takes result to act on derivate
 
 public:
-  OpNode(string, OpNode*, OpNode*, double (*func)(double, double));
-  void setPin(bool);
-  bool getPin();
-  void setResult(double);
-  double getResult();
+    OpNode* left_parent;
+    OpNode* right_parent;
+
+    OpNode(OpNode*, OpNode*);
+    ~OpNode();
+
+    PTensor eval();
+
+    void setResult(PTensor);
+    PTensor getResult();
+    PTensor unsetResult();
 
 };
 
 }
+
+#endif

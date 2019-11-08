@@ -1,45 +1,37 @@
-#include "opnode.h"
+#include "pint.h"
 
 using namespace pint;
 
-OpNode::OpNode(string node_id, OpNode* left, OpNode* right, double (*func)(double, double))
+OpNode::OpNode(OpNode* left, OpNode* right)
 {
-  this->node_id = node_id;
-  this->left_parent = left;
-  this->right_parent = right;
-  this->operation = func;
-  this->pin = false;
+    left_parent = left;
+    right_parent = right;
 }
 
-double OpNode::compute()
+OpNode::~OpNode()
 {
-  return (this->operation)(this->left_parent->getResult(), this->right_parent->getResult());
 }
 
-double OpNode::getResult()
+PTensor OpNode::eval()
 {
-  if(this->getPin())
-  {
-    return this->result;
-  }
-  else
-  {
-    return this->compute();
-  }
+    if (_set) { return _result; }
+
+    return _result = compute(left_parent->eval(), right_parent->eval());
 }
 
-void OpNode::setResult(double value)
+void OpNode::setResult(PTensor result)
 {
-  this->result = value;
-  this->setPin(true);
+    _set = true;
+    _result = result;
 }
 
-bool OpNode::getPin()
+PTensor OpNode::getResult()
 {
-  return this->pin;
+    return _result;
 }
 
-void OpNode::setPin(bool val)
+PTensor OpNode::unsetResult()
 {
-  this->pin = true;
+    _set = false;
+    return _result;
 }
