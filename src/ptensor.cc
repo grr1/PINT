@@ -46,6 +46,7 @@ PTensor::PTensor(const PTensor& t)
 {
     this->_ndim = t._ndim;
     this->_size = t._size;
+    this->_shape[0] = this->_shape[1] = this->_shape[2] = 1;
 
     for (int i = 0; i < _ndim; i++)
     {
@@ -154,6 +155,8 @@ const PTensor pint::operator/(const double &lhs, const PTensor &rhs)
     PTensor p(rhs);
 
     for (int i = 0; i < p._size; i++) { p._data[i] = lhs/p._data[i]; }
+
+    return p;
 }
 
 // Comparison op
@@ -175,7 +178,7 @@ bool PTensor::operator==(const PTensor &rhs) const
 }
 
 // Exp
-const PTensor pint::exp(const PTensor a)
+const PTensor pint::exp(const PTensor& a)
 {
     PTensor b(a);
     for (int i = 0; i < a._size; i++) { b._data[i] = std::exp(a._data[i]); }
@@ -183,8 +186,13 @@ const PTensor pint::exp(const PTensor a)
     return b;
 }
 // Dot prod
-const PTensor pint::mult(const PTensor a, const PTensor x)
+const PTensor pint::mult(const PTensor& a, const PTensor& x)
 {
+        printf("A=\n");
+        printPTensor(a);
+        printf("x=\n");
+        printPTensor(x);
+
     if (a._shape[1] != x._shape[0])
     {
         printf("Incompatible matrix dimensions\n");
@@ -194,6 +202,10 @@ const PTensor pint::mult(const PTensor a, const PTensor x)
     if (a._shape[2] != x._shape[2])
     {
         printf("Unequal matrix planes\n");
+        printf("A=\n");
+        printPTensor(a);
+        printf("x=\n");
+        printPTensor(x);
         exit(1);
     }
 
@@ -230,7 +242,7 @@ const PTensor pint::randpt(int ndim, const int* shape)
 
     for (int i = 0; i < p._size; i++)
     {
-        p._data[i] = rand();
+        p._data[i] = (double)rand() / RAND_MAX;
     }
 
     return p;

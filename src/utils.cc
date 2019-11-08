@@ -12,7 +12,7 @@ int pint::init()
     return 0;
 }
 
-void pint::printPTensorData(PTensor& t)
+void pint::printPTensorData(const PTensor &t)
 {
     for (int i = 0; i < t._size; i++)
     {
@@ -20,7 +20,7 @@ void pint::printPTensorData(PTensor& t)
     }
 }
 
-void pint::printPTensor(PTensor& t)
+void pint::printPTensor(const PTensor &t)
 {
     printf("[%d,%d,%d]\n\n", t._shape[0], t._shape[1], t._shape[2]);
     for (int k = 0; k < t._shape[2]; k++)
@@ -36,5 +36,14 @@ void pint::printPTensor(PTensor& t)
             printf("\n");
         }
         printf("\n");
+    }
+}
+
+void pint::printWeights(const vector<PTensor*> &weights)
+{
+    for (int i = 0; i < weights.size(); i++)
+    {
+        printf("weight %d:\n", i);
+        printPTensor(*(weights[i]));
     }
 }
