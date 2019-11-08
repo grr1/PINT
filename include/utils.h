@@ -8,8 +8,12 @@ namespace pint
 
 int init();
 
+void printPTensorData(PTensor& t);
+void printPTensor(PTensor& t);
+
 class ReflexivityNode: public OpNode
-{   
+{
+using OpNode::OpNode;   
 private:
     PTensor* tensor;
 
@@ -21,12 +25,13 @@ private:
     }
 
 public:
-    void setTensor (PTensor* inputTensor) { this->tensor = inputTensor; }
+    void setTensor(PTensor* inputTensor) { this->tensor = inputTensor; }
 
 };
 
 class DotProductNode: public OpNode
 {
+using OpNode::OpNode;
 private:
     PTensor compute(vector<PTensor> inp)
     {
@@ -39,6 +44,7 @@ private:
 
 class SigmoidNode: public OpNode
 {
+using OpNode::OpNode;
 private:
     PTensor compute(vector<PTensor> inp)
     {
@@ -47,8 +53,6 @@ private:
         return 1 / (1 + pint::exp(-x));
     }
 };
-
-void printPTensor(PTensor t);
 
 }
 

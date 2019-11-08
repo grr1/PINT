@@ -19,7 +19,7 @@ namespace pint
       SequentialNet();
       ~SequentialNet();
       void addLayer(int inSize, int outSize);
-      PTensor * run(PTensor * input);
+      PTensor run(PTensor * input);
   };
 
 }
