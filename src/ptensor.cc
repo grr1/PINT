@@ -28,9 +28,10 @@ PTensor::PTensor()
     _data = (double *)malloc(_size);
 }*/
 
-PTensor::PTensor(int ndim, const int * shape, double init)
+PTensor::PTensor(int ndim, const int* shape)
 {
     _ndim = min(ndim, 3);
+    _shape[0] = _shape[1] = _shape[2] = 1;
 
     _size = sizeof(double);
     for (int i = 0; i < _ndim; i++)
@@ -40,11 +41,6 @@ PTensor::PTensor(int ndim, const int * shape, double init)
     }
 
     _data = (double *)malloc(_size);
-
-    for (int i = 0; i < _size; i++)
-    {
-        _data[i] = init;
-    }
 }
 
 PTensor::PTensor(const PTensor& t)
@@ -166,9 +162,55 @@ bool PTensor::operator==(const PTensor &rhs) const
 }
 
 // Dot prod
-
-const PTensor dot(const PTensor &a, const PTensor &b)
+const PTensor dot(PTensor a, PTensor x)
 {
+    if (a.shape[1] != x.shape[0])
+    {
+        printf("Incompatible matrix dimensions\n");
+        exit(1);
+    }
     
-    return a;
+    if (a._shape[2] != x.shape[2])
+    {
+        printf("Unequal matrix planes\n");
+        exit(1);
+    }
+
+    int b_shape[3];
+    b_shape[0] = a.shape[0];
+    b_shape[1] = x.shape[1];
+    b_shape[2] = a.shape[2];
+
+    PTensor b(a._ndim, b_shape);
+
+    for (int i = 0; i < b._shape[0]; i++)
+    {
+        for (int j = 0; j < b._shape[1]; j++)
+        {
+            for (int k = 0; k < b._shape[2]; k++)
+            {
+                int dot = 0;
+                for (int h = 0; h < a._shape[1]; h++)
+                {
+                    dot += a.at(i,h,,k)*b.at(h,j,k);
+                }
+                b.at(i,j,k) = dot;
+            }
+        }
+    }
+
+    return b;
+}
+
+// Rand init
+PTensor ptrand(int ndim, const int* shape)
+{
+    PTensor p(ndim, shape);
+
+    for (int i = 0; i < p._size; i++)
+    {
+        p._data[i] = rand();
+    }
+
+    return p;
 }
