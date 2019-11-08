@@ -1,5 +1,3 @@
-#TODO: implement master header functionality ?
-
 TOPDIR=..
 
 CC=g++
@@ -17,9 +15,9 @@ INCLUDE=-I $(TOPDIR)/include
 VPATH=$(SOURCEDIR)
 OBJ=$(patsubst $(SOURCEDIR)/%.cc,$(OBJDIR)/%.o,$(SOURCES))
 
-
 # Compiler flags
-CFLAGS = ${INCLUDE} -g -c
+CFLAGS = ${INCLUDE} -g -Wall -Wextra -pedantic -c
+
 
 all: dirs $(TARGET)
 
