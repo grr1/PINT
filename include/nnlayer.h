@@ -26,7 +26,6 @@ public:
     void setResult(PTensor);
     PTensor getResult();
     PTensor unsetResult();
-
 };
 
 }
