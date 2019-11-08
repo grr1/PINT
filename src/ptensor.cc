@@ -141,9 +141,16 @@ PTensor & PTensor::operator/=(const PTensor &rhs)
     return *this;
 }
 
+// = double
+PTensor & PTensor::operator=(const double &rhs)
+{
+    for (int i = 0; i < _size; i++) { this->_data[i] = rhs; }
 
-// Comparison ops
+    return *this;
+}
 
+
+// Comparison op
 bool PTensor::operator==(const PTensor &rhs) const
 {
     if (this == &rhs) { return true; }
@@ -161,8 +168,16 @@ bool PTensor::operator==(const PTensor &rhs) const
     return false;
 }
 
+// Exp
+const PTensor exp(const PTensor a)
+{
+    PTensor b(a);
+    for (int i = 0; i < a._size; i++) { b._data[i] = exp(a._data[i]); }
+
+    return b;
+}
 // Dot prod
-const PTensor dot(PTensor a, PTensor x)
+const PTensor dot(const PTensor a, const PTensor x)
 {
     if (a.shape[1] != x.shape[0])
     {
@@ -203,7 +218,7 @@ const PTensor dot(PTensor a, PTensor x)
 }
 
 // Rand init
-PTensor ptrand(int ndim, const int* shape)
+const PTensor ptrand(int ndim, const int* shape)
 {
     PTensor p(ndim, shape);
 
