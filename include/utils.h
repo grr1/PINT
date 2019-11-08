@@ -26,6 +26,36 @@ private:
     } 
 };
 
+class ReflexvityNode: public OpNode
+{
+    private:
+        PTensor* tensor;
+
+    public:
+        PTensor* setTensor(PTensor* inputTensor)
+        {
+            this->tensor = inputTensor;
+        }
+        PTensor* compute()
+        {
+            return this->tensor;
+        }
+}
+
+class DotProductNode: public OpNode
+{
+    public:
+        PTensor* compute(PTensor *left, PTensor* right)
+        {
+            return left.dotProduct(right);
+        }
+}
+
+class ActivationNode: public OpNode
+{
+
+}
+
 void printPTensor(PTensor t);
 
 }

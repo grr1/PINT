@@ -12,6 +12,7 @@ namespace pint
 class OpNode
 {
 private:
+    vector<OpNode*> *parents;
     PTensor _result;
     bool _set = false;
 
