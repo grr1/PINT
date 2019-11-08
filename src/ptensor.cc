@@ -183,15 +183,20 @@ const PTensor pint::exp(const PTensor& a)
     PTensor b(a);
     for (int i = 0; i < a._size; i++) { b._data[i] = std::exp(a._data[i]); }
 
+    //printf("exp a=\n");
+    //printPTensor(a);
+    //printf("exp b=\n");
+    //printPTensor(b);
+
     return b;
 }
 // Dot prod
 const PTensor pint::mult(const PTensor& a, const PTensor& x)
 {
-        printf("A=\n");
-        printPTensor(a);
-        printf("x=\n");
-        printPTensor(x);
+        //printf("A=\n");
+        //printPTensor(a);
+        //printf("x=\n");
+        //printPTensor(x);
 
     if (a._shape[1] != x._shape[0])
     {
@@ -225,12 +230,15 @@ const PTensor pint::mult(const PTensor& a, const PTensor& x)
                 double dot = 0;
                 for (int h = 0; h < a._shape[1]; h++)
                 {
-                    dot += a.at(i,h,k)*b.at(h,j,k);
+                    dot += a.at(i,h,k)*x.at(h,j,k);
                 }
                 b.at(i,j,k) = dot;
             }
         }
     }
+
+    //printf("dot b=\n");
+    //printPTensor(b);
 
     return b;
 }
