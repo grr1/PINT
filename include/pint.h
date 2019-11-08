@@ -10,7 +10,6 @@
 #include "opnode.h"
 #include "opgraph.h"
 #include "utils.h"
-#include "nnlayer.h"
 #include "sequential_neural_net.h"
 
 #endif
