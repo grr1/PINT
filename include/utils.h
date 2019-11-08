@@ -8,53 +8,39 @@ namespace pint
 
 int init();
 
-class PlusNode: public OpNode
-{
-private:
-    PTensor compute(PTensor left, PTensor right)
-    {
-        return left + right;
-    } 
-};
-
-class MultNode: public OpNode
-{
-private:
-    PTensor compute(PTensor left, PTensor right)
-    {
-        return left * right;
-    } 
-};
-
-class ReflexvityNode: public OpNode
+class ReflexivityNode: public OpNode
 {
     private:
         PTensor* tensor;
 
     public:
-        PTensor* setTensor(PTensor* inputTensor)
+        void setTensor(PTensor* inputTensor)
         {
             this->tensor = inputTensor;
         }
-        PTensor* compute()
+        PTensor compute()
         {
-            return this->tensor;
+            return *(this->tensor);
         }
-}
+};
 
 class DotProductNode: public OpNode
 {
-    public:
-        PTensor* compute(PTensor *left, PTensor* right)
+    private:
+        PTensor compute(PTensor *left, PTensor* right)
         {
-            return left.dotProduct(right);
+            return dot(*left, *right);
         }
-}
+};
 
 class ActivationNode: public OpNode
 {
-
-}
+public:
+    PTensor compute(PTensor x)
+    {
+       return 1 / (1 + ptexp(-x));
+    }
+};
 
 void printPTensor(PTensor t);
 
