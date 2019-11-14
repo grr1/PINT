@@ -1,10 +1,12 @@
+// TODO: get opgraph up to speed once we start working on node ids
+
 #include "pint.h"
 
 #include <string>
 #include <map>
 
 using namespace pint;
-
+/*
 OpGraph* OpGraph::addNode(string node_id, OpNode * node, string left_parent_id, string right_parent_id)
 {
     OpNode *left  = nodes.count(left_parent_id)>0 ? nodes[left_parent_id]: NULL;
@@ -25,3 +27,4 @@ PTensor OpGraph::evalNode(string node_id)
 {
     return this->nodes[node_id]->eval();
 }
+*/
