@@ -1,5 +1,6 @@
 # PINT
 PINT Is Not Tensorflow\
+An educational neural network library implemented in C++\
 Project run by Dr. Gustavo Rodriguez-Rivera and Maxwell J. Jacobson
 
 ## Use
