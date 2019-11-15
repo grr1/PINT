@@ -20,19 +20,19 @@ int main()
 
     printf("Making net\n");
 
-    SequentialNet *net = new SequentialNet();
+    NonSequentialNet *net = new NonSequentialNet();
 
     printf("Adding layers\n");
 
-    net->addLayer(2,3);
-    net->addLayer(3,1);
+    net->addLayer(2, 3, std::string("L1"), std::string(""));
+    net->addLayer(3, 1, std::string("L2"), std::string("L1"));
 
     printf("Weights:\n");
     printWeights(net->weights);
 
     printf("\nRunning net\n");
 
-    PTensor output = net->run(input);
+    PTensor output = net->run(input, std::string("L2"));
 
     printf("\n\noutput:\n");
     //printPTensorData(output);
