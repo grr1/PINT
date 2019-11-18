@@ -1,7 +1,8 @@
 
 #include "pint.h"
-
-
+#include <iostream>
+#include <algorithm>
+#include "ptensor.h"
 namespace pint
 {
 
@@ -50,4 +51,29 @@ namespace pint
     return this->out->eval();   //NOTE: I assume this is how it's supposed to work, but please check.
   }
 
+  vector<PTensor*> SequentialNet::backwardProp(PTensor* trueOutput)
+  {
+    //Transpose(prevOutput) DOT (LayerError * F'(currOutput)) 
+    //LayerError = PrevLayerDelta DOT Transpose(Weights)
+    //LayerError for output will be set to MSE (y - output)
+    PTensor* weightUpdate;
+    PTensor* currentLayerDelta;
+    for(int i=weights.size()-1;i>0;i--)
+    {
+      if(i==weights.size()-1)
+      {
+        currentLayerError = trueOutput-layerOutput.at(i);
+      }
+      else
+      {
+        currentLayerError = mult(prevLayerDelta, transpose(*weights.at(i+1))
+      }
+      currentLayerDelta = currentLayerError * derivative(layerOutput.at(i));
+      weightUpdate = mult(transpose(*weights.at(i-1)),currentLayerDelta);
+      layerAdjustments.push_back(weightUpdate);
+      prevLayerDelta = currentLayerDelta;
+    }
+    reverse(layerAdjustments.begin(),layerAdjustments.end());
+    return layerAdjustments;
+  }
 }
