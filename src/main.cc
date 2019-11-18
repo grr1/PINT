@@ -16,7 +16,7 @@ int main()
     printf("input:\n");
     //printPTensorData(*input);
     //printf("\n");
-    printPTensor(*input);
+    //printPTensor(*input);
 
     printf("Making net\n");
 
@@ -34,10 +34,10 @@ int main()
 
     PTensor output = net->run(input);
 
-    printf("\n\noutput:\n");
+    //printf("\n\noutput:\n");
     //printPTensorData(output);
     //printf("\n");
-    printPTensor(output);
-
+    //printPTensor(output);
+    net->backwardProp();
     return 0;
 }

@@ -4,7 +4,7 @@
 #define SANN_H
 
 #include <vector>
-
+using namespace std;
 namespace pint
 {
   class SequentialNet
@@ -17,11 +17,14 @@ namespace pint
     public:
       SequentialNet();
       ~SequentialNet();
-      std::vector<PTensor*> weights; // TODO: this should be private, but it can't right now
+      vector<PTensor*> weights; // TODO: this should be private, but it can't right now
+      vector<PTensor*> layerOutputs;
+      vector<PTensor*> layerAdjustments:
+      PTensor* prevLayerDelta;
       void addLayer(int inSize, int outSize);
       PTensor run(PTensor * input);
+      vector<PTensor*> backwardProp();
   };
-
 }
 
 
