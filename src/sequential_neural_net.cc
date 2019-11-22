@@ -41,13 +41,15 @@ namespace pint
 
     parentList.push_back(dotNode);
     SigmoidNode * sigNode = new SigmoidNode(parentList);
+
+    layerOuts.push_back(sigNode);
     this->out = sigNode;
     this->numLayers++;
   }
 
   PTensor SequentialNet::run(PTensor * input)
   {
-    ((ReflexivityNode*)(this->in))->setTensor(input); // TODO: is this how to properly maintain a vector of abstracts?
+    this->in->setTensor(input);
     return this->out->eval();   //NOTE: I assume this is how it's supposed to work, but please check.
   }
 
@@ -56,22 +58,28 @@ namespace pint
     //Transpose(prevOutput) DOT (LayerError * F'(currOutput)) 
     //LayerError = PrevLayerDelta DOT Transpose(Weights)
     //LayerError for output will be set to MSE (y - output)
-    PTensor* weightUpdate;
-    PTensor* currentLayerDelta;
-    for(int i=weights.size()-1;i>0;i--)
+    PTensor* weightUpdate = new PTensor();
+    PTensor* currentLayerDelta = new PTensor();
+    PTensor* currentLayerError = new PTensor();
+    for (int i = weights.size()-1; i > 0; i--)
     {
-      if(i==weights.size()-1)
+        printf("%d\n", i);
+      if (i == weights.size()-1)
       {
-        currentLayerError = trueOutput-layerOutput.at(i);
+        *currentLayerError = *trueOutput - *(layerOuts[i]->_result);
       }
       else
       {
-        currentLayerError = mult(prevLayerDelta, transpose(*weights.at(i+1))
+        *currentLayerError = mult(*prevLayerDelta, weights[i+1]->transpose());
       }
-      currentLayerDelta = currentLayerError * derivative(layerOutput.at(i));
-      weightUpdate = mult(transpose(*weights.at(i-1)),currentLayerDelta);
+        printf("delta\n");
+      *currentLayerDelta = *currentLayerError * layerOuts[i]->derivate(*(layerOuts[i]->_result));
+        printf("weightUpdate\n");
+      *weightUpdate = mult(weights[i-1]->transpose(),*currentLayerDelta);
+        printf("layerAdjustment\n");
       layerAdjustments.push_back(weightUpdate);
-      prevLayerDelta = currentLayerDelta;
+        printf("prevDelta\n");
+      *prevLayerDelta = *currentLayerDelta;
     }
     reverse(layerAdjustments.begin(),layerAdjustments.end());
     return layerAdjustments;
