@@ -61,27 +61,41 @@ namespace pint
     PTensor* weightUpdate = new PTensor();
     PTensor* currentLayerDelta = new PTensor();
     PTensor* currentLayerError = new PTensor();
-    for (int i = weights.size()-1; i > 0; i--)
+    PTensor* prevLayerDelta = new PTensor();
+    for (int i = weights.size()-1; i >= 0; i--)
     {
-        printf("%d\n", i);
+        printf("%d\n",i);
       if (i == weights.size()-1)
       {
         *currentLayerError = *trueOutput - *(layerOuts[i]->_result);
       }
       else
       {
-        *currentLayerError = mult(*prevLayerDelta, weights[i+1]->transpose());
+        *currentLayerError = mult(*prevLayerDelta, *weights[i+1]); //
       }
         printf("delta\n");
+        printPTensor(*currentLayerError);
+        printPTensor(layerOuts[i]->derivate(*(layerOuts[i]->_result)));
       *currentLayerDelta = *currentLayerError * layerOuts[i]->derivate(*(layerOuts[i]->_result));
+        printPTensor(*currentLayerDelta);
         printf("weightUpdate\n");
-      *weightUpdate = mult(weights[i-1]->transpose(),*currentLayerDelta);
+        printPTensor(*weights[i]);
+      *weightUpdate = mult(*currentLayerDelta, *weights[i]); //
         printf("layerAdjustment\n");
+        printPTensor(*weightUpdate);
       layerAdjustments.push_back(weightUpdate);
         printf("prevDelta\n");
       *prevLayerDelta = *currentLayerDelta;
+        printPTensor(*prevLayerDelta);
     }
     reverse(layerAdjustments.begin(),layerAdjustments.end());
+   
+    printf("update\n"); 
+    for (int i = 0; i < weights.size(); i++)
+    {
+        *weights[i] += *layerAdjustments[i];
+    }
+
     return layerAdjustments;
   }
 }

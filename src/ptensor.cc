@@ -243,7 +243,7 @@ const PTensor pint::mult(const PTensor& a, const PTensor& x)
     b_shape[1] = x._shape[1];
     b_shape[2] = a._shape[2];
 
-    PTensor b(a._ndim, b_shape);
+    PTensor b(3, b_shape);
 
     for (int i = 0; i < b._shape[0]; i++)
     {
