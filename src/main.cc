@@ -13,31 +13,33 @@ int main()
     input->at(0) = 5; // x
     input->at(1) = 4; // y
 
-    printf("input:\n");
+    printf("INPUT:\n");
     //printPTensorData(*input);
     //printf("\n");
     //printPTensor(*input);
 
-    printf("Making net\n");
-
+    printf("MAKING SNN\n");
     SequentialNet *net = new SequentialNet();
 
-    printf("Adding layers\n");
+    printf("AdDDING LAYERS\n");
 
     net->addLayer(2,3);
     net->addLayer(3,1);
 
-    printf("Weights:\n");
+    printf("INITIAL WEIGHTS:\n");
     printWeights(net->weights);
 
-    printf("\nRunning net\n");
-
+    printf("\nRUNNING SNN\n");
     PTensor output = net->run(input);
 
-    //printf("\n\noutput:\n");
-    //printPTensorData(output);
-    //printf("\n");
-    //printPTensor(output);
-    net->backwardProp();
+    printf("\nOUTPUT:\n");
+    printPTensor(output);
+
+    printf("\nDOING BACKPROP\n");
+    net->backwardProp(&output);
+    
+    printf("\nNEW WEIGHTS:\n");
+    printWeights(net->weights); 
+
     return 0;
 }

@@ -65,6 +65,7 @@ public:
     bool operator!=(const PTensor &rhs) const { return !(*this == rhs); }
 
     // Auxiliary ops
+    const PTensor transpose() const;
 
     // at end because data is a flexible array member
     double * _data;
@@ -81,6 +82,7 @@ const PTensor operator/(const double &lhs, const PTensor &rhs);
 
 // TODO: is this the best place for these?
 // Auxiliary ops
+inline const PTensor transpose(const PTensor &p) { return p.transpose(); }
 const PTensor exp(const PTensor&);
 const PTensor mult(const PTensor&, const PTensor&);
 const PTensor randpt(int ndim, const int* shape);
