@@ -35,8 +35,11 @@ int main()
     printf("\nOUTPUT:\n");
     printPTensor(output);
 
+    PTensor *expected = new PTensor();
+    expected->at(0) = 1;
+
     printf("\nDOING BACKPROP\n");
-    net->backwardProp(&output);
+    net->backwardProp(expected);
     
     printf("\nNEW WEIGHTS:\n");
     printWeights(net->weights); 

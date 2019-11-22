@@ -15,7 +15,6 @@ private:
     int numLayers;
     
 public:
-    PTensor * prevLayerDelta;
     SequentialNet();
     ~SequentialNet();
     vector<PTensor*> weights; // TODO: this should be private, but it can't right now
