@@ -19,10 +19,9 @@ public:
     ~SequentialNet();
     vector<PTensor*> weights; // TODO: this should be private, but it can't right now
     vector<SigmoidNode*> layerOuts;
-    vector<PTensor*> layerAdjustments;
     void addLayer(int inSize, int outSize);
     PTensor run(PTensor * input);
-    vector<PTensor*> backwardProp(PTensor * trueOutput);
+    vector<PTensor*> backwardProp(PTensor * expectedOutput, double lr=0.02);
 };
 
 }
