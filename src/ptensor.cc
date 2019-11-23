@@ -8,7 +8,7 @@ using namespace pint;
 
 PTensor::PTensor()
 {
-    _ndim = 1;
+    _ndim = 3;
     _shape[0] = _shape[1] = _shape[2] = 1;
     _size = 1;
     _data = (double *)malloc(sizeof(double)*_size);
