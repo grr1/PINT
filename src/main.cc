@@ -40,12 +40,29 @@ int main()
     printf("INITIAL WEIGHTS:\n");
     printWeights(net->weights);
 
-    for (int i = 0; i < 2000; i++)
+    printf("\nNO ITER\n");
+
+    printf("\nRUNNING SNN\n");
+    PTensor output = net->run(input);
+
+    printf("\nFIRST OUTPUT:\n");
+    printPTensor(output);
+
+    printf("\nFIRST BACKPROP\n");
+    net->backwardProp(expected);
+    
+    printf("\nFIRST NEW WEIGHTS:\n");
+    printWeights(net->weights);
+
+    getchar();
+
+
+    for (int i = 0; i < 5000; i++)
     {
         printf("\nITERATION %d\n", i);
 
         printf("\nRUNNING SNN\n");
-        PTensor output = net->run(input);
+        output = net->run(input);
 
         printf("\nOUTPUT:\n");
         printPTensor(output);
@@ -60,7 +77,7 @@ int main()
     }
 
     printf("\nFINAL RESULT:\n");
-    PTensor output = net->run(input);
+    output = net->run(input);
     printPTensor(output);
 
     return 0;
