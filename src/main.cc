@@ -54,27 +54,21 @@ int main()
     printf("\nFIRST NEW WEIGHTS:\n");
     printWeights(net->weights);
 
+    vector<PTensor*> inputs;
+    inputs.push_back(input);
+    vector<PTensor*> expectedOuts;
+    expectedOuts.push_back(expected);
+
+    printf("\nREADY TO TRAIN\n");
+
     getchar();
 
+    printf("\nTRAINING...\n");
 
-    for (int i = 0; i < 5000; i++)
-    {
-        printf("\nITERATION %d\n", i);
+    net->basicTrain(inputs, expectedOuts, 5000);
 
-        printf("\nRUNNING SNN\n");
-        output = net->run(input);
-
-        printf("\nOUTPUT:\n");
-        printPTensor(output);
-
-        printf("\nDOING BACKPROP\n");
-        net->backwardProp(expected);
-    
-        printf("\nNEW WEIGHTS:\n");
-        printWeights(net->weights);
-
-        //getchar(); 
-    }
+    printf("\nFINAL WEIGHTS\n");
+    printWeights(net->weights);
 
     printf("\nFINAL RESULT:\n");
     output = net->run(input);

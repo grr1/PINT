@@ -1,25 +1,25 @@
-
 #include "pint.h"
 #include <iostream>
 #include <algorithm>
 #include "ptensor.h"
+
 namespace pint
 {
 
-  SequentialNet::SequentialNet()
-  {
+SequentialNet::SequentialNet()
+{
     this->numLayers = 0;
     this->in = new ReflexivityNode();
     this->out = this->in;
-  }
+}
 
-  SequentialNet::~SequentialNet()
-  {
+SequentialNet::~SequentialNet()
+{
     //TODO: Delete all the opnodes and weights.
-  }
+}
 
-  void SequentialNet::addLayer(int inSize, int outSize)
-  {
+void SequentialNet::addLayer(int inSize, int outSize)
+{
     // Make new weight matrix
     int wshape[2];
     wshape[0] = outSize;
@@ -45,16 +45,16 @@ namespace pint
     layerOuts.push_back(sigNode);
     this->out = sigNode;
     this->numLayers++;
-  }
+}
 
-  PTensor SequentialNet::run(PTensor * input)
-  {
+PTensor SequentialNet::run(PTensor * input)
+{
     this->in->setTensor(input);
     return this->out->eval();   //NOTE: I assume this is how it's supposed to work, but please check.
-  }
+}
 
-  vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr)
-  {
+vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr)
+{
     
     /*
         L2e = MSE'(Y,V) = Y - V         3x1
@@ -127,5 +127,24 @@ namespace pint
     }
 
     return la;
-  }
+}
+
+void SequentialNet::basicTrain(vector<PTensor*> inputs, vector<PTensor*> expectedOutputs, int epochs, double lr)
+{
+    if (inputs.size() != expectedOutputs.size())
+    {
+        printf("Different intputs and expectedOutputs vector sizes\n");
+        exit(1);
+    }
+
+    for (int e = 0; e < epochs; e++)
+    {
+        for (int i = 0; i < inputs.size(); i++)
+        {
+            this->run(inputs[i]);
+            this->backwardProp(expectedOutputs[i]);
+        }
+    }
+}
+    
 }
