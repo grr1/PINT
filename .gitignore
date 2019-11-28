@@ -4,4 +4,4 @@ build
 !build/Makefile
 
 # ignore swp files
-.*.sw*
+*.sw*

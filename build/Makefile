@@ -33,4 +33,4 @@ $(OBJ): ./obj/%.o : $(SOURCEDIR)/%.cc
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f ./obj/*.o $(TARGET)
+	rm -f $(TARGET) -r ./obj
