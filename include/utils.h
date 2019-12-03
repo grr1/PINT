@@ -21,7 +21,7 @@ private:
     // TODO: better way to handle variable number of parents for compute without going overboard?
     PTensor compute(vector<PTensor*> inp)
     {
-        printf("reflex comp\n");
+        //printf("reflex comp\n");
         return *tensor;
     }
 
@@ -36,7 +36,7 @@ using OpNode::OpNode;
 private:
     PTensor compute(vector<PTensor*> inp)
     {
-        printf("dot comp\n");
+        //printf("dot comp\n");
         PTensor w = *(inp[0]);
         PTensor x = *(inp[1]);
 
@@ -56,7 +56,7 @@ public:
 private:
     PTensor compute(vector<PTensor*> inp)
     {
-        printf("sig comp\n");
+        //printf("sig comp\n");
         PTensor x = *(inp[0]);
 
         return 1 / (1 + pint::exp(-x));
