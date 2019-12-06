@@ -42,11 +42,17 @@ private:
 
         return mult(w, x);
     }
+
 };
 
 class SigmoidNode: public OpNode
 {
 using OpNode::OpNode;
+public:
+    PTensor derivate(const PTensor &sig)
+    {
+        return sig*(1-sig);
+    }
 private:
     PTensor compute(vector<PTensor*> inp)
     {

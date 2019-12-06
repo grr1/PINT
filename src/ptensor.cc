@@ -8,7 +8,7 @@ using namespace pint;
 
 PTensor::PTensor()
 {
-    _ndim = 1;
+    _ndim = 3;
     _shape[0] = _shape[1] = _shape[2] = 1;
     _size = 1;
     _data = (double *)malloc(sizeof(double)*_size);
@@ -177,6 +177,30 @@ bool PTensor::operator==(const PTensor &rhs) const
     return false;
 }
 
+// Tranpose
+const PTensor PTensor::transpose() const
+{
+    int shape[3];
+    shape[0] = this->_shape[1];
+    shape[1] = this->_shape[0];
+    shape[2] = this->_shape[2];
+    PTensor t(this->_ndim, shape);
+
+    for (int k = 0; k < t._shape[2]; k++)
+    {
+        for (int i = 0; i < t._shape[0]; i++)
+        {
+            for (int j = 0; j < t._shape[1]; j++)
+            {
+                t.at(i,j,k) = this->at(j,i,k);
+            }
+        }
+    }
+
+    return t;
+}
+
+
 // Exp
 const PTensor pint::exp(const PTensor& a)
 {
@@ -190,17 +214,17 @@ const PTensor pint::exp(const PTensor& a)
 
     return b;
 }
+
 // Dot prod
 const PTensor pint::mult(const PTensor& a, const PTensor& x)
 {
-        //printf("A=\n");
-        //printPTensor(a);
-        //printf("x=\n");
-        //printPTensor(x);
-
     if (a._shape[1] != x._shape[0])
     {
         printf("Incompatible matrix dimensions\n");
+        printf("A=\n");
+        printPTensor(a);
+        printf("x=\n");
+        printPTensor(x);
         exit(1);
     }
     
@@ -219,7 +243,7 @@ const PTensor pint::mult(const PTensor& a, const PTensor& x)
     b_shape[1] = x._shape[1];
     b_shape[2] = a._shape[2];
 
-    PTensor b(a._ndim, b_shape);
+    PTensor b(3, b_shape);
 
     for (int i = 0; i < b._shape[0]; i++)
     {
