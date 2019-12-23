@@ -20,7 +20,7 @@ public:
 
     // TODO: should we add dimension verification? Don't want to allow overflow
     // at(1, 2, 3) means term #1, vector #2, color #3
-    inline double & at(int i=0, int j=0, int k=0) const { return _data[k*_shape[1]*_shape[0] + j*_shape[0] + i]; }
+    inline double & at(int i=0, int j=0, int k=0) const { return _data[j*_shape[0]*_shape[2] + k*_shape[0] + i]; }
 
     PTensor();
     //PTensor(int ndim, int * shape);

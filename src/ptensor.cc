@@ -230,15 +230,23 @@ const PTensor PTensor::transpose() const
     return t;
 }
 
-PTensor PTensor::batch(int j, int l) const
+PTensor PTensor::batch(int j, int mbs) const
 {
-    PTensor t;
-    t._ndim = this->_ndim;
-    t._shape[0] = this->_shape[1];
-    t._shape[1] = l;
-    t._shape[2] = this->_shape[2];
-    t._size = sizeof(double)*t._shape[0]*t._shape[1]*t._shape[2];
-    t._data = &(this->at(0,j,0));
+    if (j+mbs >= _shape[1])
+    {
+        printf("Batch range error\n");
+        exit(1);
+    }
+
+    PTensor b;
+    b._ndim = this->_ndim;
+    b._shape[0] = this->_shape[0];
+    b._shape[1] = mbs;
+    b._shape[2] = this->_shape[2];
+    b._size = sizeof(double)*b._shape[0]*b._shape[1]*b._shape[2];
+    b._data = &(this->at(0,j,0));
+
+    return b;
 }
 
 

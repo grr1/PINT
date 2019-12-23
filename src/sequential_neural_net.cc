@@ -15,7 +15,7 @@ SequentialNet::SequentialNet()
 
 SequentialNet::~SequentialNet()
 {
-    //TODO: Delete all the opnodes and weights.
+    // TODO: delete all the opnodes and weights.
 }
 
 void SequentialNet::addLayer(int inSize, int outSize, int nColor)
@@ -57,7 +57,7 @@ void SequentialNet::addLayer(int inSize, int outSize, int nColor)
 PTensor SequentialNet::run(PTensor * input)
 {
     this->in->setTensor(input);
-    return this->out->eval();   //NOTE: I assume this is how it's supposed to work, but please check.
+    return this->out->eval();   // NOTE: I assume this is how it's supposed to work, but please check.
 }
 
 vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr)
@@ -145,23 +145,52 @@ vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr
     return layerAdjustments;
 }
 
-void SequentialNet::basicTrain(vector<PTensor*> inputs, vector<PTensor*> expectedOutputs, int epochs, double lr)
+void SequentialNet::train(PTensor* inputs, PTensor* expectedOutputs, int epochs, int mbs, double lr)
 {
-    if (inputs.size() != expectedOutputs.size())
+    if (inputs->_shape[1] != expectedOutputs->_shape[1])
     {
         printf("Different inputs and expectedOutputs vector sizes\n");
         exit(1);
     }
 
+    if (!mbs)
+    {
+        mbs = inputs->_shape[1];
+    }
+
+    // TODO: cleaner way to make input/output minibatches, possibly using PTensor::batch()
+    PTensor ib;
+    ib._ndim = inputs->_ndim;
+    ib._shape[0] = inputs->_shape[0];
+    ib._shape[1] = mbs;
+    ib._shape[2] = inputs->_shape[2];
+    ib._size = ib._shape[0]*ib._shape[1]*ib._shape[2];
+
+    PTensor ob;    
+    ob._ndim = expectedOutputs->_ndim;
+    ob._shape[0] = expectedOutputs->_shape[0];
+    ob._shape[1] = mbs;
+    ob._shape[2] = expectedOutputs->_shape[2];
+    ob._size = ob._shape[0]*ob._shape[1]*ob._shape[2];
+
     for (int e = 0; e < epochs; e++)
     {
 //        printf("epoch:\t%d\r", e);
-        for (int i = 0; i < inputs.size(); i++)
+        ib._data = inputs->_data;
+        ob._data = expectedOutputs->_data;
+        for (int j = 0; j < inputs->_shape[1]; j+=mbs)
         {
-            this->run(inputs[i]);
-            this->backwardProp(expectedOutputs[i]);
+            this->run(&ib);
+            this->backwardProp(&ob);
+
+            ib._data += inputs->_shape[0]*mbs*inputs->_shape[2];
+            ob._data += expectedOutputs->_shape[0]*mbs*expectedOutputs->_shape[2];
         }
     }
+
+    // TODO: cleaner way to avoid free() invalid because these _data pointers are in the middle of actual given _data memory
+    ib._data = NULL;
+    ob._data = NULL;
 }
     
 }

@@ -1,9 +1,14 @@
+// TODO: replace printfs with error util
+// TODO: replace printfs with debug util
+// TODO: cout instead of printf
+
 #include "pint.h"
 #include <iostream>
 
 using namespace pint;
 
-int test243()
+// TODO: resetup test243 for batching instead of vector<PTensor>
+/*int test243()
 {
 
     int shape[3];
@@ -90,7 +95,7 @@ int test243()
     printPTensor(output);
 
     return 0;
-}
+}*/
 
 int xorTest()
 {
@@ -148,18 +153,13 @@ int xorTest()
     printf("\nFIRST NEW WEIGHTS:\n");
     printWeights(net->weights);
 
-    vector<PTensor*> inputs;
-    inputs.push_back(input);
-    vector<PTensor*> expectedOuts;
-    expectedOuts.push_back(expected);
-
     printf("\nREADY TO TRAIN\n");
 
 //    getchar();
 
     printf("\nTRAINING...\n");
 
-    net->basicTrain(inputs, expectedOuts, 2000000, 0.02);
+    net->train(input, expected, 2000000, 2, 0.02);
 
     printf("\nFINAL WEIGHTS\n");
     printWeights(net->weights);
