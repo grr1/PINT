@@ -40,7 +40,7 @@ private:
         PTensor w = *(inp[0]);
         PTensor x = *(inp[1]);
 
-        return mult(w, x);
+        return dot(w, x);
     }
 
 };

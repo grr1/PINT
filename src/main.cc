@@ -155,7 +155,7 @@ int xorTest()
 
     printf("\nREADY TO TRAIN\n");
 
-    getchar();
+//    getchar();
 
     printf("\nTRAINING...\n");
 
@@ -176,10 +176,10 @@ int main(int argc, char** argv)
     
     if (pint::init()) { exit(1); }
     
-    printf("\nTEST 243\n");
-    test243();
+//    printf("\nTEST 243\n");
+//    test243();
 
-    getchar();
+//    getchar();
 
     printf("\nXOR TEST\n");
     xorTest();

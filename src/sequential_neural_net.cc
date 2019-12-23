@@ -18,14 +18,21 @@ SequentialNet::~SequentialNet()
     //TODO: Delete all the opnodes and weights.
 }
 
-void SequentialNet::addLayer(int inSize, int outSize)
+void SequentialNet::addLayer(int inSize, int outSize, int nColor)
 {
+    int shape[3];
+
     // Make new weight matrix
-    int wshape[2];
-    wshape[0] = outSize;
-    wshape[1] = inSize;
-    PTensor * w = new PTensor(randpt(2, wshape));
+    shape[0] = outSize;
+    shape[1] = inSize;
+    shape[2] = nColor;
+    PTensor * w = new PTensor(randpt(3, shape));
     weights.push_back(w);
+
+    // Make new delta matrix
+    layerDeltas.push_back(new PTensor());
+    layerAdjustments.push_back(new PTensor());
+    
 
     // Make new weight reflex node
     ReflexivityNode * weightNode = new ReflexivityNode();
@@ -83,13 +90,11 @@ vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr
     PTensor l1a;
     PTensor l2d;
     PTensor v;
-    vector<PTensor*> ld;
-    vector<PTensor*> la;
 
     //printf("error and deltas\n");
     for (int i = numLayers-1; i >= 0; i--)
     {
-        //printf("%d\n",i);
+        //printf("%d %d\n",i,v._size);
         v = *(layerOuts[i]->_result);
         //printf("le\n");
         if (i == numLayers-1)
@@ -98,19 +103,19 @@ vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr
         }
         else
         {
-            l1e = mult(weights[i+1]->transpose(), l2d);
+            l1e = dot(weights[i+1]->transpose(), l2d);
         }
         //printPTensor(l1e);
         //printf("ld\n");
         l1d = l1e * layerOuts[i]->derivate(v);
         //printPTensor(l1d);
         //printf("push ld\n");
-        ld.push_back(new PTensor(l1d));
+        *layerDeltas[i] = l1d;
         //printf("set next\n");
         l2d = l1d;
     }
 
-    reverse(ld.begin(), ld.end());
+    //reverse(layerDeltas.begin(), layerDeltas.end());
 
     //printf("adjustments\n");
     for (int i = 0; i < numLayers; i++)
@@ -118,14 +123,14 @@ vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr
         //printf("%d\n", i);
         if (i == 0)
         {
-            l1a = mult(*ld[i], x.transpose());
+            l1a = dot(*layerDeltas[i], x.transpose());
         }
         else
         {
-            l1a = mult(*ld[i], layerOuts[i-1]->_result->transpose());
+            l1a = dot(*layerDeltas[i], layerOuts[i-1]->_result->transpose());
         }
         //printPTensor(l1a);
-        la.push_back(new PTensor(l1a));
+        *layerAdjustments[i] = l1a;
     }
     
     //printf("update\n"); 
@@ -133,11 +138,11 @@ vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr
     {
         //printf("%d\n",i);
         //printPTensor(*weights[i]);
-        //printPTensor(*la[i]);
-        *weights[i] += *la[i] * lr;
+        //printPTensor(*layerAdjustments[i]);
+        *weights[i] += *layerAdjustments[i] * lr;
     }
 
-    return la;
+    return layerAdjustments;
 }
 
 void SequentialNet::basicTrain(vector<PTensor*> inputs, vector<PTensor*> expectedOutputs, int epochs, double lr)
@@ -150,7 +155,7 @@ void SequentialNet::basicTrain(vector<PTensor*> inputs, vector<PTensor*> expecte
 
     for (int e = 0; e < epochs; e++)
     {
-        printf("epoch:\t%d\r", e);
+//        printf("epoch:\t%d\r", e);
         for (int i = 0; i < inputs.size(); i++)
         {
             this->run(inputs[i]);

@@ -8,10 +8,11 @@ using namespace pint;
 
 PTensor::PTensor()
 {
-    _ndim = 3;
-    _shape[0] = _shape[1] = _shape[2] = 1;
-    _size = 1;
-    _data = (double *)malloc(sizeof(double)*_size);
+    _ndim = 0;
+    _shape[0] = _shape[1] = _shape[2] = 0;
+    _size = 0;
+    _data = NULL;
+
 }
 
 /*PTensor::PTensor(int ndim, int * shape)
@@ -54,12 +55,15 @@ PTensor::PTensor(const PTensor& t)
     }
 
     this->_data = (double *)malloc(sizeof(double)*this->_size);
-    std::memcpy(this->_data, t._data, sizeof(double)*this->_size);
+    memcpy(this->_data, t._data, sizeof(double)*this->_size);
 }
 
 PTensor::~PTensor()
 {
-    free(_data);
+    if (_data != NULL)
+    {
+        free(_data);
+    }
 }
 
 
@@ -76,15 +80,20 @@ PTensor & PTensor::operator=(const PTensor &rhs)
     }*/
 
     this->_ndim = rhs._ndim;
-    this->_size = rhs._size;
 
     for (int i = 0; i < _ndim; i++)
     {
         this->_shape[i] = rhs._shape[i];
     }
-
-    free(this->_data);
-    _data = (double *)malloc(sizeof(double)*this->_size);
+    if (this->_size != rhs._size)
+    {
+        if (this->_data != NULL)
+        {
+            free(this->_data);
+        }
+        this->_size = rhs._size;
+        this->_data = (double *)malloc(sizeof(double)*this->_size);
+    }
     memcpy(this->_data, rhs._data, sizeof(double)*this->_size);
     return *this;
 }
@@ -141,10 +150,31 @@ PTensor & PTensor::operator/=(const PTensor &rhs)
     return *this;
 }
 
-// = double
+// Double assignment ops
 PTensor & PTensor::operator=(const double &rhs)
 {
     for (int i = 0; i < _size; i++) { this->_data[i] = rhs; }
+
+    return *this;
+}
+
+PTensor & PTensor::operator+=(const double &rhs)
+{
+    for (int i = 0; i < _size; i++) { this->_data[i] += rhs; }
+
+    return *this;
+}
+
+PTensor & PTensor::operator*=(const double &rhs)
+{
+    for (int i = 0; i < _size; i++) { this->_data[i] *= rhs; }
+
+    return *this;
+}
+
+PTensor & PTensor::operator/=(const double &rhs)
+{
+    for (int i = 0; i < _size; i++) { this->_data[i] /= rhs; }
 
     return *this;
 }
@@ -200,6 +230,17 @@ const PTensor PTensor::transpose() const
     return t;
 }
 
+PTensor PTensor::batch(int j, int l) const
+{
+    PTensor t;
+    t._ndim = this->_ndim;
+    t._shape[0] = this->_shape[1];
+    t._shape[1] = l;
+    t._shape[2] = this->_shape[2];
+    t._size = sizeof(double)*t._shape[0]*t._shape[1]*t._shape[2];
+    t._data = &(this->at(0,j,0));
+}
+
 
 // Exp
 const PTensor pint::exp(const PTensor& a)
@@ -216,7 +257,7 @@ const PTensor pint::exp(const PTensor& a)
 }
 
 // Dot prod
-const PTensor pint::mult(const PTensor& a, const PTensor& x)
+const PTensor pint::dot(const PTensor& a, const PTensor& x)
 {
     if (a._shape[1] != x._shape[0])
     {

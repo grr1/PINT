@@ -37,11 +37,12 @@ public:
     PTensor & operator*=(const PTensor&);
     PTensor & operator/=(const PTensor&);
 
+    // TODO: increment/decrement prefix/postfix ops
     PTensor & operator=(const double &rhs);
-    PTensor & operator+=(const double &rhs) { return *this += (PTensor(this->_ndim, this->_shape) = rhs); }
-    PTensor & operator-=(const double &rhs) { return *this -= (PTensor(this->_ndim, this->_shape) = rhs); }
-    PTensor & operator*=(const double &rhs) { return *this *= (PTensor(this->_ndim, this->_shape) = rhs); }
-    PTensor & operator/=(const double &rhs) { return *this /= (PTensor(this->_ndim, this->_shape) = rhs); }
+    PTensor & operator+=(const double &rhs);
+    inline PTensor & operator-=(const double &rhs) { return *this += -rhs; }
+    PTensor & operator*=(const double &rhs);
+    PTensor & operator/=(const double &rhs);
 
     // Binary arithmetic ops
     const PTensor operator+(const PTensor &other) const { return PTensor(*this) += other; }
@@ -64,6 +65,7 @@ public:
 
     // Auxiliary ops
     const PTensor transpose() const;
+    PTensor batch(int j=0, int l=1) const;
 
     // at end because data is a flexible array member
     double * _data;
@@ -82,7 +84,7 @@ const PTensor operator/(const double &lhs, const PTensor &rhs);
 // Auxiliary ops
 inline const PTensor transpose(const PTensor &p) { return p.transpose(); }
 const PTensor exp(const PTensor&);
-const PTensor mult(const PTensor&, const PTensor&);
+const PTensor dot(const PTensor&, const PTensor&);
 const PTensor randpt(int ndim, const int* shape);
 
 }
