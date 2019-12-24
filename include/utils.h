@@ -1,5 +1,3 @@
-// TODO: << overload for printing PTensors
-
 #ifndef UTILS_H
 #define UTILS_H
 
@@ -10,9 +8,8 @@ namespace pint
 
 int init();
 
-void printPTensorData(const PTensor &t);
-void printPTensor(const PTensor &t);
-void printWeights(const vector<PTensor*> &weights);
+ostream & operator<<(ostream &os, const PTensor &t);
+ostream & operator<<(ostream &os, const vector<PTensor*> &w);
 
 class ReflexivityNode: public OpNode
 {

@@ -9,41 +9,42 @@ using namespace pint;
 int pint::init()
 {
     srand(time(NULL));
+
     return 0;
 }
 
-void pint::printPTensorData(const PTensor &t)
+ostream & pint::operator<<(ostream &os, const PTensor &t)
 {
-    for (int i = 0; i < t._size; i++)
-    {
-        printf("%d:\t%f\n", i, t._data[i]);
-    }
-}
-
-void pint::printPTensor(const PTensor &t)
-{
-    printf("[%d,%d,%d]\n\n", t._shape[0], t._shape[1], t._shape[2]);
+    os << "[" << endl;
     for (int k = 0; k < t._shape[2]; k++)
     {
-        printf("k=%d\n", k);
+        os << "\t[";
         for (int i = 0; i < t._shape[0]; i++)
         {
-            printf("\t%f", t.at(i, 0, k));
-            for (int j = 1; j < t._shape[1]; j++)
+            os << "\t";
+            for (int j = 0; j < t._shape[1]; j++)
             {
-                printf("\t%f", t.at(i,j,k));
+// TODO: fix precision printing on cout for doubles
+                os << setw(8) << setfill('0') << t.at(i,j,k) << "\t";
             }
-            printf("\n");
+            if (i != t._shape[0]-1)
+            {
+                os << endl << "\t";
+            }
         }
-        printf("\n");
+        os << "]" << endl;
     }
+    os << "]";
 }
 
-void pint::printWeights(const vector<PTensor*> &weights)
+ostream & pint::operator<<(ostream &os, const vector<PTensor*> &w)
 {
-    for (int i = 0; i < weights.size(); i++)
+    os << "{" << endl;
+
+    for (int i = 0; i < w.size(); i++)
     {
-        printf("weight %d:\n", i);
-        printPTensor(*(weights[i]));
+        os << *w[i] << endl;
     }
+
+    os << "}";
 }

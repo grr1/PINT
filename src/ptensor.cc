@@ -270,20 +270,12 @@ const PTensor pint::dot(const PTensor& a, const PTensor& x)
     if (a._shape[1] != x._shape[0])
     {
         printf("Incompatible matrix dimensions\n");
-        printf("A=\n");
-        printPTensor(a);
-        printf("x=\n");
-        printPTensor(x);
         exit(1);
     }
     
     if (a._shape[2] != x._shape[2])
     {
         printf("Unequal matrix planes\n");
-        printf("A=\n");
-        printPTensor(a);
-        printf("x=\n");
-        printPTensor(x);
         exit(1);
     }
 

@@ -122,11 +122,10 @@ int xorTest()
     expected->at(1) = expected->at(2) = 1;
 
     printf("INPUT:\n");
-    printPTensor(*input);
+    cout << *input << endl;
 
     printf("\nEXPECTED OUTPUT:\n");
-    printPTensor(*expected);
-
+    cout << *expected << endl;
 
     printf("MAKING SNN\n");
     SequentialNet *net = new SequentialNet();
@@ -136,7 +135,7 @@ int xorTest()
     net->addLayer(2,1);
 
     printf("INITIAL WEIGHTS:\n");
-    printWeights(net->weights);
+    cout << net->weights << endl;
 
     printf("\nNO ITER\n");
 
@@ -144,14 +143,13 @@ int xorTest()
     PTensor output = net->run(input);
 
     printf("\nFIRST OUTPUT:\n");
-    printPTensor(*(net->layerOuts[0]->_result));
-    printPTensor(output);
+    cout << output << endl;
 
     printf("\nFIRST BACKPROP\n");
     net->backwardProp(expected);
     
     printf("\nFIRST NEW WEIGHTS:\n");
-    printWeights(net->weights);
+    cout << net->weights << endl;
 
     printf("\nREADY TO TRAIN\n");
 
@@ -162,11 +160,11 @@ int xorTest()
     net->train(input, expected, 2000000, 2, 0.02);
 
     printf("\nFINAL WEIGHTS\n");
-    printWeights(net->weights);
+    cout << net->weights << endl;
 
     printf("\nFINAL RESULT:\n");
     output = net->run(input);
-    printPTensor(output);
+    cout << output << endl;
 
     return 0;
 }

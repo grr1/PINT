@@ -3,6 +3,8 @@
 #ifndef PINT_H
 #define PINT_H
 
+#include <iostream>
+#include <iomanip>
 #include <vector>
 #include <cmath>
 
