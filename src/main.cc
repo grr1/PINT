@@ -1,6 +1,7 @@
 // TODO: replace printfs with error util
 // TODO: replace printfs with debug util
 // TODO: cout instead of printf
+// TODO: better testing system than main implementations
 
 #include "pint.h"
 #include <iostream>
@@ -50,15 +51,15 @@ using namespace pint;
     SequentialNet *net = new SequentialNet();
 
     printf("ADDING LAYERS\n");
-    net->addLayer(2,4);
-    net->addLayer(4,3);
+    net->addLayer(2, 4);
+    net->addLayer(4, 3);
 
     printf("INITIAL WEIGHTS:\n");
     printWeights(net->weights);
 
     printf("\nNO ITER\n");
 
-    printf("\nRUNNING SNN\n");
+    printf("\nRUNNING NN\n");
     PTensor output = net->run(input);
 
     printf("\nFIRST OUTPUT:\n");
@@ -66,7 +67,7 @@ using namespace pint;
 
     printf("\nFIRST BACKPROP\n");
     net->backwardProp(expected);
-    
+
     printf("\nFIRST NEW WEIGHTS:\n");
     printWeights(net->weights);
 
@@ -169,6 +170,51 @@ int xorTest()
     return 0;
 }
 
+int nsnnTest() {
+    // TODO configure real inputs here
+    const int inp_shape[] = {2, 1};
+    PTensor* input = new PTensor(2, inp_shape);
+
+    input->at(0) = 5;
+    input->at(1) = 4;
+
+    printf("Input:\n");
+    cout << *input << endl;
+
+    printf("Making the network...\n");
+    NonSequentialNet* net = new NonSequentialNet();
+
+    printf("Adding layers...\n");
+    net->addLayer(2, 2, "L1");
+    net->addLayer(2, 1, "L2", "L1");
+
+    printf("Initial weights:\n");
+    cout << net->weights << endl; 
+
+    printf("Running net...\n");
+    PTensor output = net->run(input, "L2");
+
+    //printf("End weights:\n");
+    //cout << net->weights << endl;
+
+    printf("Output:\n");
+    cout << output << endl;
+
+    return 0;
+}
+
+int sequentialSaveLoadExample() {
+    // building from scratch
+    SequentialNet* net = new SequentialNet();
+    net->addLayer(2, 3);
+    net->addLayer(3, 3);
+    net->addLayer(3, 5);
+
+    // saving
+
+    return 0;
+}
+
 int main(int argc, char** argv)
 {
     
@@ -182,5 +228,11 @@ int main(int argc, char** argv)
     printf("\nXOR TEST\n");
     xorTest();
 
+    printf("\nNSNN TEST\n");
+    nsnnTest();
+//    sequentialSaveLoadTest();
+
     return 0;
 }
+
+

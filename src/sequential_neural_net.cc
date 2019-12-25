@@ -62,7 +62,6 @@ PTensor SequentialNet::run(PTensor * input)
 
 vector<PTensor*> SequentialNet::backwardProp(PTensor * expectedOutput, double lr)
 {
-    
     /*
         Example: 784 -> 512 -> 10
         W_1                             512x784         (784, 512)
@@ -181,7 +180,7 @@ void SequentialNet::train(PTensor* inputs, PTensor* expectedOutputs, int epochs,
         for (int j = 0; j < inputs->_shape[1]; j+=mbs)
         {
             this->run(&ib);
-            this->backwardProp(&ob);
+            this->backwardProp(&ob, lr);
 
             ib._data += inputs->_shape[0]*mbs*inputs->_shape[2];
             ob._data += expectedOutputs->_shape[0]*mbs*expectedOutputs->_shape[2];
@@ -192,5 +191,39 @@ void SequentialNet::train(PTensor* inputs, PTensor* expectedOutputs, int epochs,
     ib._data = NULL;
     ob._data = NULL;
 }
-    
+
+void SequentialNet::save(char* filepath)
+{
+/*
+    // filepath checking
+    std::ofstream outFile;
+    outFile.open(filepath, std::ios::trunc); // TODO should there be a "verbose" mode that asks users if they would like to overwrite an existing file
+    if (outFile.fail()) {
+        fprintf(stderr, "Error: could not open file %s", filepath);
+        exit(1);
+    }
+
+    // creating JSON format
+    std::string out = "{\n"
+        "\ttype: \"sequential_net\","
+        "\t
+
+*/
+}
+
+void SequentialNet::load(char* filepath)
+{
+/*
+    // filepath checking
+    std::ifstream inFile;
+    inFile.open(filepath, std::ios::in);
+    if (inFile.fail()) {
+        fprintf(stderr, "Error: could not open file %s\n", filepath);
+        exit(1);
+    }
+
+    // harvesting JSON format
+*/  
+}
+
 }

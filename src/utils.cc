@@ -35,6 +35,8 @@ ostream & pint::operator<<(ostream &os, const PTensor &t)
         os << "]" << endl;
     }
     os << "]";
+
+    return os;
 }
 
 ostream & pint::operator<<(ostream &os, const vector<PTensor*> &w)
@@ -47,4 +49,6 @@ ostream & pint::operator<<(ostream &os, const vector<PTensor*> &w)
     }
 
     os << "}";
+
+    return os;
 }

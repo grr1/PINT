@@ -11,6 +11,8 @@ int init();
 ostream & operator<<(ostream &os, const PTensor &t);
 ostream & operator<<(ostream &os, const vector<PTensor*> &w);
 
+// TODO: debug print and error print utils
+
 class ReflexivityNode: public OpNode
 {
 using OpNode::OpNode;   

@@ -27,7 +27,7 @@ PTensor OpNode::eval()
     {
         _parents[i]->eval();
         inp.push_back(_parents[i]->_result);
-    } 
+    }
 
     return *_result = compute(inp);
 }

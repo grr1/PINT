@@ -13,5 +13,6 @@
 #include "opgraph.h"
 #include "utils.h"
 #include "sequential_neural_net.h"
+#include "nonsequential_neural_net.h"
 
 #endif

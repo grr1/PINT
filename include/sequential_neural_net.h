@@ -27,6 +27,9 @@ public:
     PTensor run(PTensor * input);
     vector<PTensor*> backwardProp(PTensor * expectedOutput, double lr=0.02);
     void train(PTensor*, PTensor*, int epochs=1, int mbs=0, double lr=0.02);
+
+    void save(char* filepath);
+    void load(char* filepath);
 };
 
 }
