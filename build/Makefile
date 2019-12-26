@@ -1,38 +1,47 @@
 # TODO: add gprof analysis
 
-TOPDIR=..
+TOP_DIR=..
+SRC_DIR=$(TOP_DIR)/src
+INC_DIR=$(TOP_DIR)/inc
+TEST_SRC_DIR=$(TOP_DIR)/testsrc
+BUILD_DIR=.
+TEST_DIR=$(BUILD_DIR)/tests
+OBJ_DIR=$(BUILD_DIR)/obj
 
 CC=g++
-MAIN = $(TOPDIR)/build/main
-TARGET=main
-SOURCEDIR=$(TOPDIR)/src
-OBJDIR=./obj
+CFLAGS = -I ${INC_DIR} -g -Wall -Wextra -pedantic -c
+#LDFLAGS
 
-# Sources definition
-SOURCES=$(wildcard $(SOURCEDIR)/*.cc)
+# Source definitions
+SRC=$(wildcard $(SRC_DIR)/*.cc)
+TEST_SRC=$(wildcard $(TEST_SRC_DIR)/*.cc)
 
-# Includes definition
-INCLUDE=-I $(TOPDIR)/include
+# Object definitions
+OBJ=$(patsubst $(SRC_DIR)/%.cc,$(OBJ_DIR)/%.o,$(SRC))
+TEST_OBJ=$(patsubst $(TEST_SRC_DIR)/%.cc,$(OBJ_DIR)/%.o,$(TEST_SRC))
 
-VPATH=$(SOURCEDIR)
-OBJ=$(patsubst $(SOURCEDIR)/%.cc,$(OBJDIR)/%.o,$(SOURCES))
+TARGET=$(patsubst $(TEST_SRC_DIR)/%.cc,$(TEST_DIR)/%,$(TEST_SRC))
 
-# Compiler flags
-CFLAGS = ${INCLUDE} -g -Wall -Wextra -pedantic -c
-
-
+# Require build directories and targets
 all: dirs $(TARGET)
 
-dirs: $(OBJDIR)
+# Make directories
+dirs: $(OBJ_DIR) $(TEST_DIR)
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
+$(OBJ_DIR) $(TEST_DIR):
+	mkdir -p $@
 
-$(TARGET): $(OBJ)
+# Compile each target from correct obj files
+$(TARGET): $(TEST_DIR)/% : $(OBJ) $(OBJ_DIR)/%.o
 	$(CC) $^ -o $@
 
-$(OBJ): ./obj/%.o : $(SOURCEDIR)/%.cc
+# Compile all PINT objects
+$(OBJ): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc
+	$(CC) $(CFLAGS) $< -o $@
+
+# Compile all test main objects
+$(TEST_OBJ): $(OBJ_DIR)/%.o : $(TEST_SRC_DIR)/%.cc
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f $(TARGET) -r ./obj
+	rm -f -r $(OBJ_DIR) $(TEST_DIR)

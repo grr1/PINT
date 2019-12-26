@@ -1,3 +1,6 @@
+// TODO: replace printfs with error util
+// TODO: replace printfs with debug util
+
 #include "pint.h"
 
 #include <stdio.h>
