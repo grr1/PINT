@@ -24,6 +24,9 @@ int main()
 
 
     cout << "EXPECTED OUTPUT:" << endl;
+    shape[0] = 3;
+    shape[1] = 2;
+    shape[2] = 1;
     PTensor *expected = new PTensor(3, shape);
     /*
         0.1   0.6
