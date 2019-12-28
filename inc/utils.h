@@ -20,11 +20,11 @@ private:
     PTensor* tensor;
 
     // TODO: better way to handle variable number of parents for compute without going overboard?
-    PTensor compute(vector<PTensor*> inp)
-    {
+    PTensor compute(vector<PTensor*> inp);
+    //{
         //printf("reflex comp\n");
-        return *tensor;
-    }
+    //    return *tensor;
+    //}
 
 public:
     void setTensor(PTensor* inputTensor) { this->tensor = inputTensor; }

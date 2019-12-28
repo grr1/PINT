@@ -32,6 +32,8 @@ int main()
     expected->at(1) = expected->at(2) = 1;
     cout << *expected << endl;
 
+    cout << endl;
+
     cout << "INITIALIZING NET . . ." << endl;
     SequentialNet *net = new SequentialNet();
 

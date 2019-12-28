@@ -9,8 +9,8 @@ TEST_DIR=$(BUILD_DIR)/tests
 OBJ_DIR=$(BUILD_DIR)/obj
 
 CC=g++
-CFLAGS = -I ${INC_DIR} -g -Wall -Wextra -pedantic -c
-#LDFLAGS
+CFLAGS= -I ${INC_DIR} -g -Wall -Wextra -pedantic -c
+#LDFLAGS=
 
 # Source definitions
 SRC=$(wildcard $(SRC_DIR)/*.cc)
@@ -31,9 +31,9 @@ dirs: $(OBJ_DIR) $(TEST_DIR)
 $(OBJ_DIR) $(TEST_DIR):
 	mkdir -p $@
 
-# Compile each target from correct obj files
+# Link each target from correct obj files
 $(TARGET): $(TEST_DIR)/% : $(OBJ) $(OBJ_DIR)/%.o
-	$(CC) $^ -o $@
+	$(CC) $(LDFLAGS) $^ -o $@
 
 # Compile all PINT objects
 $(OBJ): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc

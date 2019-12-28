@@ -172,9 +172,15 @@ void SequentialNet::train(PTensor* inputs, PTensor* expectedOutputs, int epochs,
     ob._shape[2] = expectedOutputs->_shape[2];
     ob._size = ob._shape[0]*ob._shape[1]*ob._shape[2];
 
+    cout << "[";
+    for (int d = 0; d < 50; d++) { cout << "."; }
+    cout << "]\r[";
+    cout.flush();
+
+    int i = 0;
+    double epochsPerLoad = double(epochs)/50;
     for (int e = 0; e < epochs; e++)
     {
-//        printf("epoch:\t%d\r", e);
         ib._data = inputs->_data;
         ob._data = expectedOutputs->_data;
         for (int j = 0; j < inputs->_shape[1]; j+=mbs)
@@ -185,7 +191,16 @@ void SequentialNet::train(PTensor* inputs, PTensor* expectedOutputs, int epochs,
             ib._data += inputs->_shape[0]*mbs*inputs->_shape[2];
             ob._data += expectedOutputs->_shape[0]*mbs*expectedOutputs->_shape[2];
         }
+
+        i++;
+        if (i >= epochsPerLoad)
+        {
+            i = 0;
+            cout << "#";
+            cout.flush();
+        }
     }
+    cout << "]" << endl;
 
     // TODO: cleaner way to avoid free() invalid because these _data pointers are in the middle of actual given _data memory
     ib._data = NULL;

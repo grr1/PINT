@@ -3,9 +3,8 @@
 
 #include "pint.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+//#include <stdlib.h>
+//#include <time.h>
 
 using namespace pint;
 
@@ -14,6 +13,11 @@ int pint::init()
     srand(time(NULL));
 
     return 0;
+}
+
+PTensor ReflexivityNode::compute(vector<PTensor*> inp)
+{
+    return *tensor;
 }
 
 ostream & pint::operator<<(ostream &os, const PTensor &t)

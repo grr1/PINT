@@ -36,9 +36,9 @@ int main()
     expected->at(0,0) = 0.1; // 1a
     expected->at(1,0) = 0.4; // 1b
     expected->at(2,0) = 0.7; // 1c
-    expected->at(0,0) = 0.6; // 2a
-    expected->at(1,0) = 0.2; // 2b
-    expected->at(2,0) = 0.9; // 2c
+    expected->at(0,1) = 0.6; // 2a
+    expected->at(1,1) = 0.2; // 2b
+    expected->at(2,1) = 0.9; // 2c
     cout << *expected << endl;
 
     cout << endl;
