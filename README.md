@@ -1,17 +1,23 @@
 # PINT
 PINT Is Not Tensorflow\
 An educational neural network library implemented in C++\
-Project run by Dr. Gustavo Rodriguez-Rivera and Maxwell J. Jacobson
+Project managed by Dr. Gustavo Rodriguez-Rivera and Maxwell J. Jacobson
 
 ## Use
-Run the following commands to compile and run main.cc
+To build test programs from testsrc:
 ```
 cd build
 make
-./main
+```
+To list all test program executables:
+```
+cd build/tests
+ls
 ```
 
+All
+
 ## Contributors
-- Viswajeeet Balaji
 - Sri Cherukuri
+- Viswajeeet Balaji
 - Anthony Niemiec
