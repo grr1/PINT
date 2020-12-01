@@ -9,13 +9,12 @@ To build test programs from testsrc:
 cd build
 make
 ```
-To list all test program executables:
+To list all built test program executables:
 ```
 cd build/tests
 ls
 ```
 
-All
 
 ## Contributors
 - Sri Cherukuri
